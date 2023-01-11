@@ -1,0 +1,169 @@
+,created_time,message,id
+0,2023-01-11T03:17:40+0000,"There was a time when my only exercise was running. I figured that because it was the fastest way to feel breathless, it was the most efficient form of exercise.
+
+Look at this infographic, including the legend. “RT” stands for resistance training (”weight training”, or exercises targetting muscles) and “AT” stands for aerobic training (”cardio”).
+
+Notice that of the 8 categories of exercise benefits, 7 can be obtained from resistance exercise. Only cardiorespiratory function is unique to aerobic training.
+
+Resistance training is essential for strength and preventing age-related muscle and bone loss, yet many exercisers don’t do it. Hopefully infographics such as this one help people learn that resistance training is the most impactful use of their exercise time.
+
+What barriers prevent you from doing resistance training, if any?",10104327314119821_10104327972240941
+1,2023-01-09T21:30:18+0000,"For the US, ""Wearable technology (#1), strength training with free weights (#2), and outdoor activities (#5) remain within the top five fitness trends, whereas home exercise gyms reveal a downward trend (#13, compared with #2 last year).""
+
+There's no surprise that interest in wearable tech is rising. My questions is how much the increasing interest in fitness trackers is from people who are already exercising regularly, people who end up increasing their physical activity/health practices as a result of the device, or people with aspirations of improving fitness but remain sedentary.
+
+As a fitness professional, I'm happy to see that interest in strength training is increasing!",10104327314119821_10104326999794731
+2,2023-01-09T17:06:33+0000,"Excited to see developments in wearable tech!
+
+Is there one you love or are excited about? If so, why?",10104327314119821_10104326849426071
+3,2023-01-07T21:36:58+0000,"Pomelos are one of my favourite fruits. It is also known as a Chinese grapefruit. I prefer them over regular grapefruits because they are not bitter and less watery. They are in season now, so try it out while they are available!
+
+What’s great about pomelos in general is how filling and nutritious they are while having a low calorie density. I like them as an alternative carbohydrate source to grains in a meal. 
+
+People who aren’t familiar with pomelos are not sure how to prepare them, so these photos should help.",10104327314119821_10104325303319481
+4,2023-01-06T19:39:51+0000,"What's your favourite app or wearable that helps you live a healthier lifestyle?
+
+I'm actually a fan of Apple Health. I use it to track my sleep and steps. Women can also track menstrual cycle and related symptoms, which is helpful. Apple Health also integrates with many other apps/wearables so you can see your data on a single platform.
+
+More recently, the sharing feature allows me to monitor my parents' data, including data related to risk of falls.
+
+The data scientist in me wishes their interface had more data visualization and analysis features, but it's still pretty good for built-in free app.
+
+#datascience #datavisualization #health",10104327314119821_10104324466536401
+5,2023-01-05T01:47:06+0000,What is one habit you're looking to add right now?,10104327314119821_10104323209450611
+6,2023-01-03T20:34:34+0000,"Gamify your goals
+
+Duolingo was one of the pioneers in the gamification space. I started using it last year to improve my Chinese and French. For me, the app's most powerful feature is its streak count because:
+
+1. I don't want to miss a day of lessons because I'll lose my streak.
+
+2. At the same time, I have 1 or 2  banked ""streak freezes"" so I can keep my streak even if I miss a day (you need to earn or purchase the streak freezes).
+
+This approach is great because it is process-oriented (e.g. do this habit) rather than outcome-oriented (e.g. lose weight), which has been shown scientifically to be better for long term adherence.
+
+You don't any app to ""gamify"" a habit you want to add. Crossing off days on a calendar will work equally if not better (the more this reminder is in plain sight, the better). If you like crossing items off a to-do list, add the habit there (I love Asana and Notion for managing tasks).
+
+What gamification strategies do you have?
+
+I just lost my 170+ day Duolingo streak because I missed my lesson on New Year's Eve of all days. I guess the new year really IS a fresh start for me.",10104327314119821_10104322209294931
+7,2022-12-31T19:03:58+0000,"Exciting developments for athletes as Apple watch moves closer to being able to measure heart rate variability (HRV). Would this tempt you to become/remain an Apple watch user?
+
+A few years ago at the peak of my obsession with optimizing strength training, I used a Polar chest strap for 2 minutes each daily before getting out of bed to track my HRV. It was a bit of hassle as I had to keep a dish of water next to the bed to wet the sensor electrodes to avoid confounding the results by getting up. No surprise, I abandoned that daily measurement (my Oura ring measures HRV effortlessly while I sleep, though strength training is not as central to my life as it was before).
+
+",10104327314119821_10104319695048501
+8,2022-12-30T02:06:59+0000,,10104327314119821_10104318387234371
+9,2022-12-27T20:45:10+0000,"With power comes responsibility.
+
+In the fitness space, people get excited about how AI can analyze movement, but what I am most excited about is how to use AI to help people adopt healthier lifestyles--we generally know it's important to exercise, but doing it is challenging.
+
+If Netflix and YouTube can recommend content you'll find interesting, how can a health app recommend a health practice that you'll adopt to improve your health long term?
+
+The recommendation will likely need to account for and adapt to your preferences, personality, knowledge/skills, and life stage. It also must be the right level of difficulty: If it's too challenging, you'll get discouraged and give up. If it's too easy, you might not get much benefit or lose motivation.
+
+What application of AI are you most excited about?",10104327314119821_10104316537146961
+10,2022-12-27T03:29:04+0000,"While my podcast feed is mostly filled with podcasts on data science, health, and fitness, the Hidden Brain podcast is one that people from all industries will find interesting. This most recent episode features scientist and science communicator Katy Milkman, and it’s just in time for the new year, since it discusses strategies on how to follow through on our goals.",10104327314119821_10104315957164251
+11,2022-12-22T19:26:12+0000,"It’s not enough to have data.
+
+When I started my career, I assumed that having knowledge and data were the only important things for being good at my job. It didn’t take too long for me to realize that I could have all the technical knowledge I needed, but it wouldn’t matter if I couldn’t use it to influence people positively.
+
+Scientists and analysts are all experienced with using figures and tables to show data, but even the best don’t necessarily communicate their findings in a way that is easy to interpret and translate. As someone who appreciates good data visualization, these are the points I will think about when I want to communicate more effectively with data:
+
+- The figure title should give the take-home message, not just the topic of the figure.
+
+- Use colours and colour intensity to emphasize the most important lines/points.
+
+- Annotate the figure so the reader can get the important context without reading the caption/text.
+
+A few years ago I decided to focus my professional development on behaviour change. It’s fun to think about this topic from a data science lens. 
+
+What are your favourite examples of good data visualization?",10104327314119821_10104312344733591
+12,2022-12-22T18:54:39+0000,"If you want to give improve a try but aren't ready to commit to a course, Blind Tiger Comedy is offering a couple free classes the evening of Mon Jan 9. It's a way to play games, meet people, and exercise your brain!
+
+",10104327314119821_10104312327652821
+13,2022-12-21T22:42:06+0000,"This neighboring house has these long sharp icicle hanging from all along its roof edges, while none of the other houses I saw had them. It got me thinking about the importance of good design; I would NOT want to be walking under one of these vanishing daggers if they dropped.
+
+Have you seen any similar icicles? Drop a photo in the comments!",10104327314119821_10104311647386081
+14,2022-12-20T15:39:50+0000,"A common piece of advice on applying for jobs is to apply even if you don’t meet all the requirements in the job posting. For those of you involved in hiring, how true is this?",10104327314119821_10104310456083461
+15,2022-12-20T00:12:56+0000,"There are already apps that do what personal trainers do: Creating goal-specific exercise programs, providing exercise demos, and even checking form. Will it put trainers out of work? 
+No; here’s why:
+1. The main challenges in fitness relate to getting people to adopt resistance training and continue long term, not simply knowing what to do. A good trainer doesn’t just check form; they help people DO the things that are aligned with their motivations and abilities.
+
+2. Even when computer vision becomes advanced enough to distinguish between subtle differences in exercise technique, differences in muscle activation patterns (which can make the difference between pain vs. no pain) cannot always be be seen, even by an expert coach. A good movement coach knows the right questions and cues to use for the individual in front of them.
+
+What WILL happen is that these AI-based fitness products will:
+
+- Allow more people to exercise smarter.
+
+- Weed out low quality exercise professionals and force remaining ones to up their standards.
+
+- Make it easier for exercisers and fitness professionals to make data-informed decisions through easier data tracking and visualization.
+
+What do you think?",10104327314119821_10104309935257201
+16,2022-12-19T02:12:15+0000,"In 2021 I got the audiobook Weapons of Math Destruction by Cathy O’Neil after joining a book club for women in STEM. It discusses the dangers of artificial intelligence algorithms in perpetuating social inequalities. I had no idea at the time that I would embark on a career where I would be developing AI algorithms. I’ll be relistening to this book, this time with the perspective of a data scientist.
+
+Have ideas on how to change AI to reduce social inqualities? Comment below!
+
+",10104327314119821_10104309149586691
+17,2022-12-17T19:46:27+0000,"Why walking is cardio are important, but not enough to keep you fit.
+
+Lifting weights and resistance training are not just just for athletes or people who want to change their appearance; it helps to:
+
+- Increase strength. That way, you can do everyday activities more easily with less pain/injury.
+- Counteract muscle imbalances. Most sports and cardio activities (e.g. running, cycling, hiking) inherently train some muscles and not others. A good resistance training program systematically targets the various parts of the body to help you maintain good posture and reduce aches/pains.
+- Counteract the effects of ageing: Falls, broken hips, frailty, and stooped posture should not be accepted as inevitable.
+
+Have questions or want to discuss? Comment below as this is a topic I’m passionate about.",10104327314119821_10104308112115791
+18,2022-12-15T20:52:22+0000,"How doing just bodyweight 15 squats can change your body.
+
+Even with long work hours, you can sprinkle in moments of strength training. The research shows that it helps to improve metabolism (e.g. blood sugar control) AND may even support muscle building—just 15 squats can do the trick, according to this study.
+
+For the past 3 months, I had very little time to do much else aside from trying to keep up with the material in my data science bootcamp. I was in no mindset to take a half hour to work out, but when I had to use the bathroom, I would do 2 pull ups and/or a pistol squat.
+
+Don’t let perfectionism stop you from being just a bit more active. Will you give this a try? 
+
+Read about it here on Examine.com",10104327314119821_10104306747690111
+19,2022-12-13T21:43:46+0000,"I just finished my diploma in data science from Lighthouse Labs and am excited for the new opportunities this opens in the tech sector! 
+
+A bit about me: I have Master of Science in kinesiology and been working as a kinesiologist and personal trainer since 2014. My ideal next step is to work in an organization that uses technology and products to promote health/fitness on a large scale, such as health apps, gyms, or fitness product manufacturers. 
+
+My ask: If you have a connection with such an organization and they are open to chat, I’d love to learn more about that business, even if there are no job current openings.",10104327314119821_10104305474985621
+20,2022-12-06T16:38:38+0000,"Hard to believe, but Friday at noon I'll be presenting my final project for my data science diploma. My project is titled Load-Velocity Profiling to Estimate 1-Repetition Maximums (I'm still a fitness professional, after all). I'm also excited to see what my classmates will be presenting; they're an ambitious, bright group who have helped me better understand the course material.
+
+If you have an interest in data and machine learning, feel free to register to attend. https://hopin.com/events/national-demo-day-december-8
+
+There will be multiple demos going on at once (including web security and web development); I'm in the data science program.",10104327314119821_10104300108759581
+21,2022-12-05T03:14:50+0000,"I made a little web app to predict 1RM using machine learning. Here's a preview.
+
+If you happen to know your squat velocity, this app will estimate your 1RM and plot the load-velocity profile for the barbell squat.
+
+Here's the app: https://silvhua-lighthouse-capstone-project-srcapp-wafhso.streamlit.app/",10104327314119821_10104298959318071
+22,2022-11-24T05:50:31+0000,"https://medium.com/defy-time-fitness/data-visualization-of-canadas-fitness-as-measured-by-stats-canada-f4ed24c7d969
+
+Did you know that Stats Canada has been doing fitness testing for a representative sample of the population every 2 years?",10104327314119821_10104290584441391
+23,2022-11-17T03:29:10+0000,"Hello, fellow lifters and coaches. Help me out? If you know your 1RM squat, this is for you. All you have to do is do a quick survey. 
+
+I will have 2 weeks starting Nov 24 to work on a final project that involves machine learning (a subset of artificial intelligence). More data = more accurate predictions.
+
+The goal of this project is to create an algorithm that can tell you how much weight to lift for the prescribed number of reps, desired effort level (reps in reserve), and your attributes. Here's why:
+1. The charts/formulas based %1RM have a lot of error; they are based on population averages and may not apply to you as an individual. Let's find an estimate that is more accurate for YOU.
+2. We need a way to select an appropriate weight even without recent 1RM testing.
+
+For simplicity, I am collecting data only on the barbell squat. Front squat, back squat, and zercher squats are included as long as the data provided are all for the same exercise. Here's my request:
+1. Look at your training log and fill in the following Google form. My algorithm will require a rating of effort based on reps in reserved (RIR). If you don't track your reps in reserve, do it on your next squat session and come back! You can submit anonymously.
+2. Share this with your lifting friends! The more data I have, the more accurate the predictions will be.
+3. If you have the right client data, you can enter that as well!
+
+Thanks in advance!",10104327314119821_10104281613599031
+24,2022-11-07T05:16:16+0000,"Hi, fellow lifters, kinesiologists, and fitness pros. I'm exploring options for a final project I will be doing for my data science program and could use your help.
+
+Rep max estimation equations exist, but usually have a lot of error for any given individual and/or circumstances. It would be amazing to have a machine learning model that can estimate YOUR rep max given YOUR previously-logged reps/sets, RPE/RIR, and even whether it's a regular training session or a session you've peaked for. 
+
+My questions are:
+ 1. Does this type of app/algorithm already exist? I am pretty sure most just use the basic static equations.
+ 2. If not, I would LOVE to create this. The trouble would be getting enough data of training logs in order to sufficiently train and tune the model. Any ideas where I could go about getting adequate data for this purpose? 
+
+I don't think looking at powerlifting/weightlifting competition results would the best data because:
+ 1. Most people don't train using maximal weight to failure most of the time (I envision a model that updates its estimations weekly). I want this algorithm to help people determine the right weight to use no matter what rep range, i.e. it should be able to estimate 1-15+ rep max.
+ 2. Repeated frequent data would be required so you won't have to do max testing for accurate rep max estimations.
+
+Thanks in advance!",10104327314119821_10104254212615821
