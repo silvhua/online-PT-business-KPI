@@ -5,6 +5,27 @@ from nltk.tokenize import word_tokenize
 import numpy as np
 from nltk.stem import WordNetLemmatizer
 
+
+def process_df_timestamp(input_df, timestamp_colum='timestamp'):
+    """
+    Convert dates in the json-derived dataframe from Facebook API read requests
+    into different formats.
+
+    Parameters: 
+        - input_df : DataFrame with the timestamp of the data.
+        - timestamp_column (str): Name of the column with the timestamp.
+    """
+    df = input_df.reset_index(drop=True)
+    regex_date = r'.+T'
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df['date'] = df['timestamp'].dt.date
+    df['year'] = df['timestamp'].dt.year
+    df['month'] = df['timestamp'].dt.month
+    df['day_of_week'] = df['timestamp'].dt.dayofweek
+    df['time'] = df['timestamp'].dt.time
+    df['hour'] = df['timestamp'].dt.hour
+    return df
+
 def preprocess_post_text(docs):
     """
     Prepare data from text documents for NLP:
