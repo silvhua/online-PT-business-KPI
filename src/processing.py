@@ -21,6 +21,7 @@ def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     df['date'] = df['timestamp'].dt.date
     df['year'] = df['timestamp'].dt.year
     df['month'] = df['timestamp'].dt.month
+    df['week_of_year'] = df['timestamp'].dt.isocalendar().week
     df['day_of_week'] = df['timestamp'].dt.dayofweek
     df['time'] = df['timestamp'].dt.time
     df['hour'] = df['timestamp'].dt.hour
