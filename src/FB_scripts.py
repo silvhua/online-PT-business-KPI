@@ -5,7 +5,9 @@ import pandas as pd
 import sys
 sys.path.append(r"C:\Users\silvh\OneDrive\lighthouse\custom_python")
 from silvhua import *
+from datetime import time, datetime
 import pickle
+import streamlit as st
 
 def test_ig_credentials(ig_user_id, access_token):
     """ 
@@ -28,6 +30,7 @@ def test_ig_credentials(ig_user_id, access_token):
         
     return response_json
 
+@st.cache_data
 def get_user_ig_post_text(ig_user_id, access_token, pages=5, since=None, until=None,
     filename=None,
     json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\raw',
@@ -72,10 +75,22 @@ def get_user_ig_post_text(ig_user_id, access_token, pages=5, since=None, until=N
     user_id = str(ig_user_id)
     url_root = "https://graph.facebook.com/v15.0/"
     url_without_token = f'{url_root}{ig_user_id}/media?fields=timestamp%2Ccaption%2Clike_count%2Ccomments_count%2Cmedia_type%2Cmedia_product_type%2Cmedia_url%2Cpermalink%2Cid%2Cthumbnail_url%2Ccomments%7Btimestamp%2Ctext%2Cusername%2Clike_count%2Creplies%7Btimestamp%2Ctext%2Cusername%2Clike_count%7D%7D'
+    
     if since:
-        url_without_token += f'&since={datetime.timestamp(datetime.strptime(since, "%Y-%m-%d"))}'
+        if type(since) == str:
+            since = datetime.strptime(since, "%Y-%m-%d")
+        else:
+            default_time = time(0,0)
+            since = datetime.combine(since, default_time)
+        url_without_token += f'&since={datetime.timestamp(since)}'
     if until:
-        url_without_token += f'&until={datetime.timestamp(datetime.strptime(until, "%Y-%m-%d"))}'
+        if type(until) == str:
+            until = datetime.strptime(until, "%Y-%m-%d")
+        else:
+            default_time=time(0,0)
+            until = datetime.combine(until, default_time)
+        url_without_token += f'&until={datetime.timestamp(until)}'
+
 
     url = url_without_token+'&access_token='+access_token
     
