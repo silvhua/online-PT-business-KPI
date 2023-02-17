@@ -34,6 +34,9 @@ if st.button('Get results'):
 
     data_processed, count_vector, vect = post_preprocessing(data)
 
-    posts_figure = plot_images(data_processed, n=posts_to_display)
+    """
+    ## Results
+    """
+    posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True)
 else:
     st.write('Click to run')

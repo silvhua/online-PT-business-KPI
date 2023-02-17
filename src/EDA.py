@@ -5,6 +5,7 @@ from datetime import datetime
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from skimage import io
+import streamlit as st
 
 def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper', title_suffix=None,
     filename=None, path=r'C:\Users\silvh\OneDrive\data science job search\content'):
@@ -36,7 +37,8 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
 
     return top_n
 
-def plot_images(df, n=6, top=True, max_columns=5):
+@st.cache_data
+def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
     """
     Plot the images/video thumbnails of either the top or 
     worst performing instagram media (posts, reels, carousels).
@@ -63,6 +65,8 @@ def plot_images(df, n=6, top=True, max_columns=5):
     fig.update_xaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_yaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_layout(plot_bgcolor="white")
-
-    fig.show()
+    if streamlit:
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        fig.show()
     return posts
