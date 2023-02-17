@@ -30,7 +30,7 @@ def test_ig_credentials(ig_user_id, access_token):
         
     return response_json
 
-@st.cache_data
+@st.experimental_memo
 def get_user_ig_post_text(ig_user_id, access_token, pages=5, since=None, until=None,
     filename=None,
     json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\raw',
