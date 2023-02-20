@@ -10,11 +10,39 @@ from processing import *
 from EDA import *
 from datetime import timedelta
 
+# ig_user_id_text_input = st.text_input('(Optional) Instagram User ID', "")
+# ig_access_token_text_input = st.text_input('(Optional) Instagram Access Token', "")
+
+# if ig_user_id_text_input == "":
+#     ig_user_id_radio_input = st.radio('Account', ('Other (enter Instagram User ID below)', 'coach_mcloone', 'silvialiftsweights'))
+#     try: # if running from local machine
+#         with open("..\\notebooks\credentials.json") as f:
+#             credentials = json.load(f)
+#         ig_user_id_sh = credentials['ig_user_id']
+#         access_token_sh = credentials['access_token']
+#         ig_user_id_am = credentials['am_ig_user_id']
+#         access_token_am = credentials['am_ig_access_token']
+#     except: # if running from streamlit
+#         ig_user_id_sh = st.secrets['ig_user_id']
+#         access_token_sh = st.secrets['access_token']
+#         ig_user_id_am = st.secrets['am_ig_user_id']
+#         access_token_am = st.secrets['am_ig_access_token']
+#     if ig_user_id_radio_input == 'coach_mcloone':
+#         ig_user_id = ig_user_id_am
+#         access_token = access_token_am
+#     else:
+#         ig_user_id = ig_user_id_sh
+#         access_token = access_token_sh
+
+# else:
+#     ig_user_id = ig_user_id_text_input
+#     access_token = ig_access_token_text_input
+
+ig_user_id_radio_input = st.radio('Account', ('Other (enter Instagram User ID below)', 'coach_mcloone', 'silvialiftsweights'))
 ig_user_id_text_input = st.text_input('(Optional) Instagram User ID', "")
 ig_access_token_text_input = st.text_input('(Optional) Instagram Access Token', "")
 
-if ig_user_id_text_input == "":
-    ig_user_id_radio_input = st.radio('Account', ('Own it Fit', 'Silvia'))
+if ig_user_id_radio_input != 'Other (enter Instagram User ID below)':
     try: # if running from local machine
         with open("..\\notebooks\credentials.json") as f:
             credentials = json.load(f)
@@ -27,13 +55,12 @@ if ig_user_id_text_input == "":
         access_token_sh = st.secrets['access_token']
         ig_user_id_am = st.secrets['am_ig_user_id']
         access_token_am = st.secrets['am_ig_access_token']
-    if ig_user_id_radio_input == 'Own it Fit':
+    if ig_user_id_radio_input == 'coach_mcloone':
         ig_user_id = ig_user_id_am
-        access_token = access_token_am
+        access_token = access_token_am if access_token_am !="" else ig_access_token_text_input
     else:
         ig_user_id = ig_user_id_sh
         access_token = access_token_sh
-
 else:
     ig_user_id = ig_user_id_text_input
     access_token = ig_access_token_text_input
