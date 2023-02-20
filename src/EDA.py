@@ -45,10 +45,11 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
     """
     ncols = n if n<max_columns else max_columns
     nrows = (n + ncols - 1) // ncols
-    sort_by = ['like_count']
+    sort_by = ['like_count', 'comments_count', 'timestamp']
     posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n)
     posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
-    fig = make_subplots(rows=nrows, cols=ncols)
+    titles = tuple(posts['timestamp'].dt.strftime('%Y-%m-%d at %H:%M').values.tolist())
+    fig = make_subplots(rows=nrows, cols=ncols, subplot_titles=titles)
     for index, url in enumerate(posts['thumbnail_url']):
         # print(index,':', url)
         fig.add_layout_image(
