@@ -10,7 +10,13 @@ from processing import *
 from EDA import *
 from datetime import timedelta
 
-ig_user_id_radio_input = st.radio('Account', ('Other', 'coach_mcloone', 'silvialiftsweights'))
+"""
+# Instagram Insights
+(Instagram Stories excluded)
+"""
+st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
+
+ig_user_id_radio_input = st.radio('Instagram account', ('coach_mcloone', 'silvialiftsweights', 'Other'))
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
@@ -26,7 +32,7 @@ if ig_user_id_radio_input != 'Other':
         ig_user_id_am = st.secrets['am_ig_user_id']
         access_token_am = st.secrets['am_ig_access_token']
     if ig_user_id_radio_input == 'coach_mcloone':
-        ig_access_token_text_input = st.text_input('Instagram Access Token', "")
+        ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
         ig_user_id = ig_user_id_am
         access_token = access_token_am if access_token_am !="" else ig_access_token_text_input
     else:
@@ -34,7 +40,7 @@ if ig_user_id_radio_input != 'Other':
         access_token = access_token_sh
 else:
     ig_user_id_text_input = st.text_input('Required: Instagram User ID', "")
-    ig_access_token_text_input = st.text_input('Required: Instagram Access Token', "")
+    ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
     ig_user_id = ig_user_id_text_input
     access_token = ig_access_token_text_input
 
@@ -51,7 +57,11 @@ if access_token != "":
 
         """
         ## Results
+        ### Most Likes 
         """
-        posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True)
+        top_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True)
+
+        """### Least Likes"""
+        bottom_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True, top=False)
     else:
         st.write('Click to run')
