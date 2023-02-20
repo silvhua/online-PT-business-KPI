@@ -8,7 +8,7 @@ import pandas as pd
 import unicodedata
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
-from custom_nlp import *
+# from custom_nlp import *
 from datetime import datetime
 
 def process_df_timestamp(input_df, timestamp_colum='timestamp'):
