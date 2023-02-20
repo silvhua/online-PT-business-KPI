@@ -3,8 +3,8 @@
 import matplotlib.pyplot as plt
 from datetime import datetime
 from plotly.subplots import make_subplots
-import plotly.graph_objects as go
-from skimage import io
+# import plotly.graph_objects as go
+# from skimage import io
 import streamlit as st
 
 def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper', title_suffix=None,
