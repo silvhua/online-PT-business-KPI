@@ -10,23 +10,31 @@ from processing import *
 from EDA import *
 from datetime import timedelta
 
-ig_user_id_text_input = st.number_input('Instagram User ID')
-ig_user_id_radio_input = st.radio('Account', ('', 'Silvia', 'Amanda'))
+ig_user_id_text_input = st.text_input('(Optional) Instagram User ID', "")
+ig_access_token_text_input = st.text_input('(Optional) Instagram Access Token', "")
+
+if ig_user_id_text_input == "":
+    ig_user_id_radio_input = st.radio('Account', ('Own it Fit', 'Silvia'))
+    with open("..\\notebooks\credentials.json") as f:
+        credentials = json.load(f)
+    ig_user_id_sh = credentials['ig_user_id']
+    access_token_sh = credentials['access_token']
+    ig_user_id_am = credentials['am_ig_user_id']
+    access_token_am = credentials['am_ig_access_token']
+    if ig_user_id_radio_input == 'Own it Fit':
+        ig_user_id = ig_user_id_am
+        access_token = access_token_am
+    else:
+        ig_user_id = ig_user_id_sh
+        access_token = access_token_sh
+else:
+    ig_user_id = ig_user_id_text_input
+    access_token = ig_access_token_text_input
+
 posts_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52))
 posts_end_date = st.date_input('End date of query')
 posts_to_display = st.number_input('Number of posts to display', value=3)
 
-ig_user_id = ig_user_id_text_input if ig_user_id_text_input else ig_user_id_radio_input
-
-
-with open("..\\notebooks\credentials.json") as f:
-    credentials = json.load(f)
-
-ig_user_id_sh = credentials['ig_user_id']
-access_token = credentials['access_token']
-
-if ig_user_id_radio_input == '':
-    ig_user_id = ig_user_id_sh
 
 if st.button('Get results'):
     data, response_json = get_user_ig_post_text(ig_user_id, access_token,
