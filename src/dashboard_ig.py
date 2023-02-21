@@ -61,7 +61,7 @@ if access_token != "":
         """
         top_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True)
 
-        """### Least Likes"""
+        """### Fewest Likes"""
         bottom_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True, top=False)
     else:
         st.write('Click to run')
