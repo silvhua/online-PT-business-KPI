@@ -46,12 +46,13 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
     ncols = n if n<max_columns else max_columns
     nrows = (n + ncols - 1) // ncols
     sort_by = ['like_count', 'comments_count', 'timestamp']
-    posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n)
+    posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n).copy()
     posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
     titles = tuple(posts['timestamp'].dt.strftime('%Y-%m-%d at %H:%M').values.tolist())
     fig = make_subplots(rows=nrows, cols=ncols, subplot_titles=titles)
-    for index, url in enumerate(posts['thumbnail_url']):
-        # print(index,':', url)
+    for index, (n_likes, n_comments, url) in enumerate(zip(
+            posts['like_count'], posts['comments_count'], posts['thumbnail_url'])
+        ):
         fig.add_layout_image(
             x=0, y=0,
             xanchor='center', yanchor='middle',
@@ -63,6 +64,20 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
             opacity=1.0,
             source=url
         )
+        fig.add_annotation(
+            xref="x domain",
+            yref="y domain",
+            x=0.5,
+            y=-.10,
+            text=f'{n_likes} likes, {n_comments} comments',
+            axref="x domain",
+            ayref="y",
+            ax=0.5,
+            ay=2,
+            arrowhead=2,
+            row=index // ncols + 1,
+            col=index % ncols + 1,
+        )
     fig.update_xaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_yaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_layout(plot_bgcolor="white")
@@ -70,4 +85,4 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
         st.plotly_chart(fig, use_container_width=True)
     else:
         fig.show()
-    return posts
+    return posts.reset_index(drop=True)
