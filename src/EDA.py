@@ -38,17 +38,40 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
     return top_n
 
 @st.cache_data
-def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
+def plot_images(df, n=6, top=True, max_columns=5, streamlit=False, timezone='Canada/Pacific'):
     """
     Plot the images/video thumbnails of either the top or 
     worst performing instagram media (posts, reels, carousels).
+    The following data is shown for each resulting media item:
+        - Image/video thumbnail
+        - Time stamp of the post in the provided time zone or in UTC time.
+        - Number of likes and number of comments.
+
+    Parameters:
+        - df: DataFrame with the processed data.
+        - n (int): Number of images to show.
+        - top (bool): If True, plot images with the highest number of likes in 
+            descending order. If False, plot images with the highest number of likes in
+            ascending order. sort_by = ['like_count', 'comments_count', 'timestamp']
+        - streamlit (bool): Whether or not the app runs on Streamlit. If False, then
+            it is run on local machine.
+        - timezone (str): Timezone parameter for the `.astimezone()` method.
+            e.g. 'Australia/Sydney', 'Canada/Pacific'
+    Returns:
+        - DataFrame containing the data of the posts in the figure.
+        - fig: Plotly figure object.
     """
     ncols = n if n<max_columns else max_columns
     nrows = (n + ncols - 1) // ncols
     sort_by = ['like_count', 'comments_count', 'timestamp']
     posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n).copy()
     posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
-    titles = tuple(posts['timestamp'].dt.strftime('%Y-%m-%d at %H:%M').values.tolist())
+    if timezone:
+        print('Time zone:', timezone)
+        converted_timestamp = [timestamp.astimezone(timezone) for timestamp in pd.to_datetime(posts['timestamp'])]
+        titles = tuple(timestamp.strftime('%Y-%m-%d at %H:%M') for timestamp in converted_timestamp)
+    else:
+        titles = tuple(posts['timestamp'].dt.strftime('%Y-%m-%d at %H:%M').values.tolist())
     fig = make_subplots(rows=nrows, cols=ncols, subplot_titles=titles)
     for index, (n_likes, n_comments, url) in enumerate(zip(
             posts['like_count'], posts['comments_count'], posts['thumbnail_url'])
@@ -85,4 +108,4 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False):
         st.plotly_chart(fig, use_container_width=True)
     else:
         fig.show()
-    return posts.reset_index(drop=True)
+    return posts.reset_index(drop=True), fig
