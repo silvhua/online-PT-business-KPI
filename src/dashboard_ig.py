@@ -34,7 +34,7 @@ if ig_user_id_radio_input != 'Other':
     if ig_user_id_radio_input == 'coach_mcloone':
         # ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
         ig_user_id = ig_user_id_am
-        access_token = access_token_am if access_token_am !=""# else ig_access_token_text_input
+        access_token = access_token_am #if access_token_am !="" else ig_access_token_text_input
     else:
         ig_user_id = ig_user_id_sh
         access_token = access_token_sh
