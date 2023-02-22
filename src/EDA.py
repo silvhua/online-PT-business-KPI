@@ -1,5 +1,6 @@
 # import seaborn as sns
 # import matplotlib_inline.backend_inline
+import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 from plotly.subplots import make_subplots
