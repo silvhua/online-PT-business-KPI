@@ -32,21 +32,25 @@ if ig_user_id_radio_input != 'Other':
         ig_user_id_am = st.secrets['am_ig_user_id']
         access_token_am = st.secrets['am_ig_access_token']
     if ig_user_id_radio_input == 'coach_mcloone':
-        # ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
         ig_user_id = ig_user_id_am
-        access_token = access_token_am #if access_token_am !="" else ig_access_token_text_input
+        access_token = access_token_am 
+        timezone = 'Australia/Sydney'
     else:
         ig_user_id = ig_user_id_sh
         access_token = access_token_sh
+        timezone = 'Canada/Pacific'
 else:
     ig_user_id_text_input = st.text_input('Required: Instagram User ID', "")
     ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
     ig_user_id = ig_user_id_text_input
     access_token = ig_access_token_text_input
+    timezone = None
 
 posts_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52))
 posts_end_date = st.date_input('End date of query')
 posts_to_display = st.number_input('Number of posts to display', value=3)
+max_columns = st.slider('Number of columns (more = smaller images)', min_value=1, max_value=5, value=3, step=1)
+max_columns = posts_to_display if max_columns > posts_to_display else max_columns
 
 if access_token != "":
     if st.button('Get results'):
@@ -55,13 +59,19 @@ if access_token != "":
 
         data_processed, count_vector, vect = post_preprocessing(data)
 
-        """
-        ## Results
-        ### Most Likes 
-        """
-        top_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True)
+        """## Results"""
+        st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
+
+        """### Most Likes"""
+        top_posts_figure = plot_images(
+            data_processed, n=posts_to_display, streamlit=True, max_columns=max_columns,
+            timezone=timezone
+            )
 
         """### Fewest Likes"""
-        bottom_posts_figure = plot_images(data_processed, n=posts_to_display, streamlit=True, top=False)
+        bottom_posts_figure = plot_images(
+            data_processed, n=posts_to_display, streamlit=True, top=False, max_columns=max_columns,
+            timezone=timezone
+            )
     else:
-        st.write('Click to run')
+        st.write('Click button for results')
