@@ -5,3 +5,6 @@ plotly
 scikit-learn
 nltk
 matplotlib
+unicodedata
+string
+re
