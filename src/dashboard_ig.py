@@ -58,20 +58,22 @@ if access_token != "":
                 pages=50, since=posts_start_date, until=posts_end_date)
 
         data_processed, count_vector, vect = post_preprocessing(data)
-
+        
         """## Results"""
         st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
 
-        """### Most Likes"""
-        top_posts_figure = plot_images(
-            data_processed, n=posts_to_display, streamlit=True, max_columns=max_columns,
+        top_posts, top_posts_figure = plot_images_tfidf(
+            data_processed, count_vector, n=posts_to_display, streamlit=True, 
+            max_columns=max_columns,
             timezone=timezone
             )
 
-        """### Fewest Likes"""
-        bottom_posts_figure = plot_images(
-            data_processed, n=posts_to_display, streamlit=True, top=False, max_columns=max_columns,
+        bottom_posts, bottom_posts_figure = plot_images_tfidf(
+            data_processed, count_vector,n=posts_to_display, streamlit=True, 
+            top=False, max_columns=max_columns,
             timezone=timezone
             )
+        st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
+             bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
     else:
         st.write('Click button for results')
