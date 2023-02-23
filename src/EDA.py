@@ -173,8 +173,6 @@ def plot_images_tfidf(input_df, count_vector,
             opacity=1.0,
             source=url
         )
-        print(url)
-        print()
         annotation_y_position = -0.075
         fig.add_annotation(
             xref="x domain",
