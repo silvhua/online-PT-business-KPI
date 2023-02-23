@@ -1,5 +1,6 @@
 import string
 import re
+import json
 import numpy as np
 from nltk.tokenize import word_tokenize
 import numpy as np
@@ -8,8 +9,10 @@ import pandas as pd
 import unicodedata
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
-# from custom_nlp import *
 from datetime import datetime
+from sklearn.feature_extraction.text import TfidfTransformer
+# import nltk
+# nltk.download('punkt')
 
 def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     """
@@ -96,6 +99,69 @@ def preprocess_post_text(doc):
         return words
     except: # In case value is nan
         return 'zzzEmpty'
+    
+# def preprocess_post_text(doc):
+#     """
+#     Prepare data from text documents for NLP:
+#     - Convert to lowercase
+#     - Remove formatting
+#     - Remove all the special characters
+#     - Remove all single characters
+#     - Substitute multiple spaces with single space
+
+#     Parameters:
+#     doc (string): Document.
+
+#     Returns: Processed doc.
+#     """
+#     wnl = WordNetLemmatizer()
+#     # Remove apostrophes before tokenization to preserve contractions like "should've"
+#     doc = re.sub(r"(\b\w+)'(\w+\b)", r'\1\2', doc)
+
+#     # Split text into single words (also gets rid of extra white spaces)
+#     words = word_tokenize(doc)
+
+#     # Remove text formatting
+#     words = [unicodedata.normalize('NFKD', word) for word in words]
+    
+#     # Convert to lower case
+#     words = [word.lower() for word in words]
+
+#     # Remove stop words
+#     stop_words = set(stopwords.words('english'))
+#     words = [word for word in words if not word in stop_words]
+
+#     # Lemmatize words (must be done after conversion to lower case)
+#     words = [wnl.lemmatize(word, pos='v') for word in words]
+#     words = [wnl.lemmatize(word, pos='n') for word in words]
+    
+#     # join words back together as a string
+#     words = ''.join([word+' ' for word in words])
+
+#     # Join @ and # to the subsequent word to retain handles and hashtags
+#     words = re.sub(r'@ \w+', 'zzzHandle', words)
+#     words = re.sub(r'# (\w+)', r'zzzHashtag\1', words)
+
+#     # Remove any URLs 
+#     words = re.sub(r'\w*\.+\w*', '', words) # Remove periods in middle of word
+#     words = re.sub(r'\w*/+\w*', '', words) # remove forward slash in middle of word
+#     words = re.sub(r'\w*/+\w*', '', words)
+
+#     # Replace hypthens with spaces
+#     words = re.sub(r'(\w+)-(\w+)*', r'\1 \2', words)
+#     words = re.sub(r'(\w+)-(\w+)*', r'\1 \2', words)
+
+#     # Remove numbers
+#     words = re.sub(r'\d:\d\d[\-a-zA-Z]*','zzzTime', words) # Time of day
+#     words = re.sub(r'\b\d+\b', 'zzzNumber', words)
+#     words = re.sub(r'\b\d+\w+\b', 'zzzNumber', words) #Number with letters
+
+#     # remove special characters
+#     non_hashtag_punctuation = ''.join([char for char in string.punctuation if char not in '#@'])
+#     words = ''.join([char for char in words if char not in non_hashtag_punctuation])
+
+#     return words
+
 
 def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
     filename=None,
@@ -143,16 +209,16 @@ def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
             min_df=min_df,
             max_features=max_features
         )
-    vect.fit(df['caption'])
-    vector = vect.transform(df['caption'])
+    vect.fit(df[text_column])
+    vector = vect.transform(df[text_column])
     print('Shape of vector array: ', vector.shape)
     vector_df = pd.DataFrame(vector.toarray(), columns=vect.get_feature_names_out())
 
     # Replace zzz tags with brackets 
     vector_df.columns = vector_df.columns.str.replace(r'zzzhashtag(\w+)', r'#\1', regex=True)
     vector_df.columns = vector_df.columns.str.replace(r'zzz(\w+)', r'<\1>', regex=True)
-    df['caption'] = df['caption'].apply(lambda x: re.sub(r'zzzHashtag(\w+)', r'#\1', x))
-    df['caption'] = df['caption'].apply(lambda x: re.sub(r'zzz(\w+)', r'<\1>', x))
+    df[text_column] = df[text_column].apply(lambda x: re.sub(r'zzzHashtag(\w+)', r'#\1', x))
+    df[text_column] = df[text_column].apply(lambda x: re.sub(r'zzz(\w+)', r'<\1>', x))
     print(f'\nTop {n_top_to_print} words:')
     print(vector_df.sum().sort_values(ascending=False).head(n_top_to_print))
     print('Time processed:', datetime.now())
@@ -165,3 +231,21 @@ def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
             print('Unable to save outputs')
 
     return df, vector_df, vect
+
+def response_json_dict_to_df(response_json_dict):
+    """
+    Convert the data from the response_json_dict (e.g. from get_user_ig_post_text function) 
+    into a DataFrame.
+    """
+    data = pd.concat([json_normalize(response['data']) for key, response in response_json_dict.items()])
+    data_processed, count_vector, vect = post_preprocessing(data)
+    return data_processed, count_vector, vect
+
+def tfidf_transform(count_vector):
+    vectorizer = TfidfTransformer()
+    tfidf= pd.DataFrame(
+        vectorizer.fit_transform(count_vector).toarray(), 
+        columns=vectorizer.get_feature_names_out()
+        )
+    print('TF-IDF done')
+    return tfidf
