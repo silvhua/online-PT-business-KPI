@@ -5,5 +5,4 @@ plotly
 scikit-learn
 nltk
 matplotlib
-string
 re
