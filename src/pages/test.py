@@ -23,7 +23,7 @@ st.write('hello, world')
 
 docs = [   
     "The quick brown fox should've jumped",
-    'This is the second sentence with fox'
+    'This is the second sentence with foxes apples'
 ]
 
 def preprocess_post_text1(doc):
@@ -49,18 +49,18 @@ def preprocess_post_text1(doc):
     words = word_tokenize(doc) 
 
     # Remove text formatting
-    words = [unicodedata.normalize('NFKD', word) for word in words]# SH 2023-02-24 20:54 online app works to here
+    words = [unicodedata.normalize('NFKD', word) for word in words]
     
     # Convert to lower case
     words = [word.lower() for word in words]
 
     # Remove stop words
     stop_words = set(stopwords.words('english'))
-    words = [word for word in words if not word in stop_words]
+    words = [word for word in words if not word in stop_words]# SH 2023-02-24 20:54 online app works to here
 
-    # # Lemmatize words (must be done after conversion to lower case)
-    # words = [wnl.lemmatize(word, pos='v') for word in words]
-    # words = [wnl.lemmatize(word, pos='n') for word in words]
+    # Lemmatize words (must be done after conversion to lower case)
+    words = [wnl.lemmatize(word, pos='v') for word in words]
+    words = [wnl.lemmatize(word, pos='n') for word in words]
     
     # # join words back together as a string
     # words = ''.join([word+' ' for word in words])
