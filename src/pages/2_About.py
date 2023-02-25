@@ -34,7 +34,8 @@ To learn more about Silvia, check out these links:
 * [LinkedIn](https://www.linkedin.com/in/silviahua/)
 * [Github](https://github.com/silvhua)
 
-If you are interested in estimating maximum (1RM) strength for the squat, check out her other project:
+If you are interested in estimating maximum (1RM) strength for the squat, check out her other project, 
+**Load Velocity Profiling to Estimate 1RM Squat**:
 * [5-minute project presentation](https://youtu.be/D7LPYTePY6k)
 * [1RM calculator using load-velocity profile](https://silvhua-lighthouse-capstone-project-srcapp-wafhso.streamlit.app/)
 * [Github repo](https://github.com/silvhua/lighthouse-capstone-project)
