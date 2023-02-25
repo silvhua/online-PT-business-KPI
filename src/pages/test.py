@@ -10,6 +10,8 @@ docs = [
     'this is the second sentence with fox'
 ]
 
+st.write(docs)
+
 processed_docs = [preprocess_post_text(doc) for doc in docs]
 # st.write(processed_docs)
 
