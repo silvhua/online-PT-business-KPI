@@ -44,21 +44,21 @@ def preprocess_post_text1(doc):
     # words = doc
 
     # Split text into single words (also gets rid of extra white spaces)
-    words = word_tokenize(doc) # SH 2023-02-24 20:54 online app works to here
+    words = word_tokenize(doc) 
 
     # Remove text formatting
-    words = [unicodedata.normalize('NFKD', word) for word in words]
+    words = [unicodedata.normalize('NFKD', word) for word in words]# SH 2023-02-24 20:54 online app works to here
     
-    # # Convert to lower case
-    # words = [word.lower() for word in words]
+    # Convert to lower case
+    words = [word.lower() for word in words]
 
-    # # Remove stop words
-    # stop_words = set(stopwords.words('english'))
-    # words = [word for word in words if not word in stop_words]
+    # Remove stop words
+    stop_words = set(stopwords.words('english'))
+    words = [word for word in words if not word in stop_words]
 
-    # # Lemmatize words (must be done after conversion to lower case)
-    # words = [wnl.lemmatize(word, pos='v') for word in words]
-    # words = [wnl.lemmatize(word, pos='n') for word in words]
+    # Lemmatize words (must be done after conversion to lower case)
+    words = [wnl.lemmatize(word, pos='v') for word in words]
+    words = [wnl.lemmatize(word, pos='n') for word in words]
     
     # # join words back together as a string
     # words = ''.join([word+' ' for word in words])
