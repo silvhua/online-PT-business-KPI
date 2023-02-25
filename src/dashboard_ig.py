@@ -17,6 +17,10 @@ nltk.download('wordnet')
 """
 # Instagram Insights
 (Instagram Stories excluded)
+
+Instagram is a commonly used platform for online marketing, particularly for online fitness coaches. 
+This dashboard helps you gain insights about a given business Instagram account for a given time period 
+to help with your digital marketing strategy.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
@@ -54,8 +58,8 @@ else:
     access_token = ig_access_token_text_input
     timezone = None
 
-posts_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52))
-posts_end_date = st.date_input('End date of query')
+posts_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52) - timedelta(days=1))
+posts_end_date = st.date_input('End date of query', datetime.now() - timedelta(days=1)) + timedelta(days=1)
 posts_to_display = st.number_input('Number of posts to display', value=3)
 max_columns = st.slider('Number of columns (more = smaller images)', min_value=1, max_value=5, value=3, step=1)
 max_columns = posts_to_display if max_columns > posts_to_display else max_columns
