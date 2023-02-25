@@ -75,9 +75,10 @@ if access_token != "":
             )
         st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
              bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
-        
+    else:
+        st.write('Click button for results')
+
+    if count_vector:
         n_top_words = st.number_input('Number of top words to display', value=10)
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
-    else:
-        st.write('Click button for results')
