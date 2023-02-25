@@ -17,6 +17,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 import nltk
 nltk.download('punkt')
+nltk.download('stopwords')
+
 st.write('hello, world')
 
 docs = [   
