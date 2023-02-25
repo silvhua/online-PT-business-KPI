@@ -13,6 +13,7 @@ from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
 import nltk
 nltk.download('punkt')
+nltk.download('stopwords')
 
 def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     """
