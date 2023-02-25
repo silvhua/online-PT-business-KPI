@@ -7,12 +7,13 @@ import string
 import re
 import json
 import numpy as np
-from nltk.tokenize import word_tokenize
+import nltk
+# from nltk.tokenize import word_tokenize
 import numpy as np
-from nltk.stem import WordNetLemmatizer
+# from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import unicodedata
-from nltk.corpus import stopwords
+# from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 
@@ -44,7 +45,7 @@ def preprocess_post_text1(doc):
         # words = doc
 
         # Split text into single words (also gets rid of extra white spaces)
-        words = word_tokenize(doc)
+        words = nltk.word_tokenize(doc)
 
         # # Remove text formatting
         # words = [unicodedata.normalize('NFKD', word) for word in words]
