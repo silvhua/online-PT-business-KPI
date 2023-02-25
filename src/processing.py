@@ -11,8 +11,8 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
-# import nltk
-# nltk.download('punkt')
+import nltk
+nltk.download('punkt')
 
 def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     """
