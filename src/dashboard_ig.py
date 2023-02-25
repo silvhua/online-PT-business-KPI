@@ -76,8 +76,7 @@ if access_token != "":
         st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
              bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
         
-        top_words = BoW_eda(count_vector, n=25)
-        BoW_eda(count_vector, n=25)
+        top_words = BoW_eda(count_vector, n=25, streamlit=True)
         st.write('done')
     else:
         st.write('Click button for results')

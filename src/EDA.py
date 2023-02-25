@@ -10,7 +10,8 @@ import streamlit as st
 from processing import *
 
 def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper', title_suffix=None,
-            filename=None, path=r'C:\Users\silvh\OneDrive\data science job search\content'):
+        streamlit=False, filename=None, path=r'C:\Users\silvh\OneDrive\data science job search\content'
+    ):
     sns.reset_defaults()    
     # %matplotlib inline
     # matplotlib_inline.backend_inline.set_matplotlib_formats('retina')
@@ -28,9 +29,9 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
         title = f'{title}: {title_suffix}'
     ax.set(xlabel='Count', ylabel='Word', title=title)
     ax.axis('tight')
-    # if streamlit:
-    #     st.plotly_chart(fig, use_container_width=True)
-    fig.show()
+    if streamlit:
+        plt.show()
+
     if filename:
         try:
             path = f'{path}/'.replace('\\','/')
