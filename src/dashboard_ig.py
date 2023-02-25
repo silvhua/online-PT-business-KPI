@@ -78,5 +78,6 @@ if access_token != "":
         
         top_words = BoW_eda(count_vector, n=25)
         BoW_eda(count_vector, n=25)
+        st.write('done')
     else:
         st.write('Click button for results')
