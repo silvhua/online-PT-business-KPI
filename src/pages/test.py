@@ -17,6 +17,6 @@ response_df = pd.read_csv('data/interim/my_ig_posts_2022_pulled_2023-02-11.csv')
 
 df, count_vector, vect = post_preprocessing(response_df)
 
-st.write(response_df.head())
+st.write(df.head(10))
 
 # response_df = pd.read_csv('data/my_ig_posts_2022_pulled_2023-02-11.csv')  
