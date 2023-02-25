@@ -19,7 +19,7 @@ nltk.download('wordnet')
 
 Instagram is a commonly used platform for online marketing, particularly for online fitness coaches. 
 This dashboard helps you gain insights about a given business Instagram account for a given time period 
-to help with your digital marketing strategy.
+to help with the business's digital marketing strategy.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
