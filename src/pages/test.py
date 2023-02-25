@@ -15,7 +15,7 @@ import unicodedata
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
-
+nltk.download('punkt')
 st.write('hello, world')
 
 docs = [   
