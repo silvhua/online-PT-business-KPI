@@ -58,9 +58,9 @@ def preprocess_post_text1(doc):
     stop_words = set(stopwords.words('english'))
     words = [word for word in words if not word in stop_words]
 
-    # Lemmatize words (must be done after conversion to lower case)
-    words = [wnl.lemmatize(word, pos='v') for word in words]
-    words = [wnl.lemmatize(word, pos='n') for word in words]
+    # # Lemmatize words (must be done after conversion to lower case)
+    # words = [wnl.lemmatize(word, pos='v') for word in words]
+    # words = [wnl.lemmatize(word, pos='n') for word in words]
     
     # # join words back together as a string
     # words = ''.join([word+' ' for word in words])
