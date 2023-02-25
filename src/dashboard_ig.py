@@ -21,6 +21,8 @@ st.set_page_config(page_title='Instagram Insights')
 Instagram is a commonly used platform for online marketing, particularly for online fitness coaches. 
 This dashboard helps you gain insights about a given business Instagram account for a given time period 
 to help with the business's digital marketing strategy.
+
+This site will continue to get updated to allow for more insights.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
