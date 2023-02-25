@@ -41,10 +41,10 @@ def preprocess_post_text1(doc):
     try:
         # Remove apostrophes before tokenization to preserve contractions like "should've"
         doc = re.sub(r"(\b\w+)'(\w+\b)", r'\1\2', doc)
-        words = doc
+        # words = doc
 
-        # # Split text into single words (also gets rid of extra white spaces)
-        # words = word_tokenize(doc)
+        # Split text into single words (also gets rid of extra white spaces)
+        words = word_tokenize(doc)
 
         # # Remove text formatting
         # words = [unicodedata.normalize('NFKD', word) for word in words]
