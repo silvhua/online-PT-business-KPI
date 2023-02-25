@@ -26,7 +26,7 @@ This site will continue to get updated to allow for more insights.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
-ig_user_id_radio_input = st.radio('Instagram account', ('silvialiftsweights', 'coach_mcloone', 'Other'))
+ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('silvialiftsweights', 'coach_mcloone', 'Other'))
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
