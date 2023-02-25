@@ -74,8 +74,8 @@ if access_token != "":
         data_processed, count_vector, vect = post_preprocessing(data)
         
         """## Results
-        (Instagram Stories excluded)
         """
+        st.write('(Instagram Stories excluded)')
         st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
 
         top_posts, top_posts_figure = plot_images_tfidf(
