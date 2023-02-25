@@ -51,7 +51,7 @@ posts_end_date = st.date_input('End date of query')
 posts_to_display = st.number_input('Number of posts to display', value=3)
 max_columns = st.slider('Number of columns (more = smaller images)', min_value=1, max_value=5, value=3, step=1)
 max_columns = posts_to_display if max_columns > posts_to_display else max_columns
-n_top_words = st.number_input('Number of top words to display', value=10)
+n_top_words = st.number_input('Number of most frequent words to display', value=10)
 if access_token != "":
     if st.button('Get results'):
         data, response_json = get_user_ig_post_text(ig_user_id, access_token,
@@ -73,7 +73,7 @@ if access_token != "":
             top=False, max_columns=max_columns,
             timezone=timezone
             )
-        with st.expander('See Permalinks for each post'):
+        with st.expander('Click to see Permalinks for each post'):
             permalinks = pd.concat([top_posts['permalink'].rename('links to most liked posts'),
                 bottom_posts['permalink'].rename('links to least liked posts')], axis=1)
             permalinks.index = list(range(1,len(top_posts)+1))
