@@ -75,7 +75,7 @@ if access_token != "":
             )
         st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
             bottom_posts['permalink'].rename('links to least liked posts')], axis=1).reindex(
-            range(1,len(top_posts+1))
+            range(1,len(top_posts)+1)
             ))
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
