@@ -16,7 +16,6 @@ nltk.download('wordnet')
 
 """
 # Instagram Insights
-(Instagram Stories excluded)
 
 Instagram is a commonly used platform for online marketing, particularly for online fitness coaches. 
 This dashboard helps you gain insights about a given business Instagram account for a given time period 
@@ -71,7 +70,9 @@ if access_token != "":
 
         data_processed, count_vector, vect = post_preprocessing(data)
         
-        """## Results"""
+        """## Results
+        (Instagram Stories excluded)
+        """
         st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
 
         top_posts, top_posts_figure = plot_images_tfidf(
