@@ -9,6 +9,10 @@ from FB_scripts import *
 from processing import *
 from EDA import *
 from datetime import timedelta
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 """
 # Instagram Insights
