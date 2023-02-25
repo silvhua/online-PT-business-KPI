@@ -1,4 +1,4 @@
-# import seaborn as sns
+import seaborn as sns
 # import matplotlib_inline.backend_inline
 import pandas as pd
 import matplotlib.pyplot as plt
