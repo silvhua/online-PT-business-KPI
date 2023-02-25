@@ -60,8 +60,6 @@ if access_token != "":
         data_processed, count_vector, vect = post_preprocessing(data)
         
         """## Results"""
-        top_words, BoW_fig = BoW_eda(count_vector, n=25, streamlit=True)
-        st.pyplot(BoW_fig)
         st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
 
         top_posts, top_posts_figure = plot_images_tfidf(
@@ -78,5 +76,8 @@ if access_token != "":
         st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
              bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
         
+        n_top_words = st.number_input('Number of top words to display', value=10)
+        top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
+        st.pyplot(BoW_fig)
     else:
         st.write('Click button for results')
