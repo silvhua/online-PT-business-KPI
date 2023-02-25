@@ -73,10 +73,11 @@ if access_token != "":
             top=False, max_columns=max_columns,
             timezone=timezone
             )
-        permalinks = pd.concat([top_posts['permalink'].rename('links to most liked posts'),
-            bottom_posts['permalink'].rename('links to least liked posts')], axis=1)
-        permalinks.index = list(range(1,len(top_posts)+1))
-        st.write(permalinks)
+        with st.expander('See Permalinks for each post'):
+            permalinks = pd.concat([top_posts['permalink'].rename('links to most liked posts'),
+                bottom_posts['permalink'].rename('links to least liked posts')], axis=1)
+            permalinks.index = list(range(1,len(top_posts)+1))
+            st.write(permalinks)
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
     else:
