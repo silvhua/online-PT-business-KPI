@@ -44,10 +44,10 @@ def preprocess_post_text1(doc):
     # words = doc
 
     # Split text into single words (also gets rid of extra white spaces)
-    words = word_tokenize(doc)
+    words = word_tokenize(doc) # SH 2023-02-24 20:54 online app works to here
 
-    # # Remove text formatting
-    # words = [unicodedata.normalize('NFKD', word) for word in words]
+    # Remove text formatting
+    words = [unicodedata.normalize('NFKD', word) for word in words]
     
     # # Convert to lower case
     # words = [word.lower() for word in words]
