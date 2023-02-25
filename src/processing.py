@@ -11,7 +11,7 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
-# import nltk
+import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
