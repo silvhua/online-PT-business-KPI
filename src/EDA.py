@@ -30,7 +30,7 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
     ax.set(xlabel='Count', ylabel='Word', title=title)
     ax.axis('tight')
     if streamlit:
-        plt.show()
+        fig.show()
 
     if filename:
         try:
