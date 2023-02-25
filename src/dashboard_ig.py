@@ -77,5 +77,6 @@ if access_token != "":
              bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
         
         top_words = BoW_eda(count_vector, n=25)
+        BoW_eda(count_vector, n=25)
     else:
         st.write('Click button for results')
