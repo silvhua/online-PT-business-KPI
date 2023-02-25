@@ -51,7 +51,7 @@ posts_end_date = st.date_input('End date of query')
 posts_to_display = st.number_input('Number of posts to display', value=3)
 max_columns = st.slider('Number of columns (more = smaller images)', min_value=1, max_value=5, value=3, step=1)
 max_columns = posts_to_display if max_columns > posts_to_display else max_columns
-
+n_top_words = st.number_input('Number of top words to display', value=10)
 if access_token != "":
     if st.button('Get results'):
         data, response_json = get_user_ig_post_text(ig_user_id, access_token,
@@ -75,10 +75,7 @@ if access_token != "":
             )
         st.write(pd.concat([top_posts['permalink'].rename('links to most liked posts'),
              bottom_posts['permalink'].rename('links to least liked posts')], axis=1))
-    else:
-        st.write('Click button for results')
-
-    if count_vector:
-        n_top_words = st.number_input('Number of top words to display', value=10)
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
+    else:
+        st.write('Click button for results')
