@@ -42,7 +42,7 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
             print('Unable to save outputs')
     print('Time completed:', datetime.now())
 
-    return top_n
+    return top_n, fig
 
 @st.cache_data
 def plot_images(df, n=6, top=True, max_columns=5, streamlit=False, timezone='Canada/Pacific'):

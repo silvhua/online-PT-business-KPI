@@ -60,8 +60,8 @@ if access_token != "":
         data_processed, count_vector, vect = post_preprocessing(data)
         
         """## Results"""
-        top_words = BoW_eda(count_vector, n=25, streamlit=True)
-        st.pyplot(top_words, clear_figure=True)
+        top_words, BoW_fig = BoW_eda(count_vector, n=25, streamlit=True)
+        st.pyplot(BoW_fig)
         st.write(f'Time zone: {timezone}' if timezone else 'Times are shown in UTC time')
 
         top_posts, top_posts_figure = plot_images_tfidf(
