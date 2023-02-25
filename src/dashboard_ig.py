@@ -40,7 +40,10 @@ if ig_user_id_radio_input != 'Other':
         access_token = access_token_sh
         timezone = 'Canada/Pacific'
 else:
-    st.write('Note: This will only work for business Instagram accounts of which this app is installed to the associated Facebook account')
+    
+    """Note: This will only work for business Instagram accounts of 
+    which this app is installed to the associated Facebook account"""
+    
     ig_user_id_text_input = st.text_input('Required: Instagram User ID', "")
     ig_access_token_text_input = st.text_input('Required: Access token linked to Instagram account', "")
     ig_user_id = ig_user_id_text_input
