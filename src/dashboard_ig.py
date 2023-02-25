@@ -14,6 +14,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
+st.set_page_config(page_title='Instagram Insights')
 """
 # Instagram Insights
 
@@ -23,7 +24,7 @@ to help with the business's digital marketing strategy.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
-ig_user_id_radio_input = st.radio('Instagram account', ('coach_mcloone', 'silvialiftsweights', 'Other'))
+ig_user_id_radio_input = st.radio('Instagram account', ('silvialiftsweights', 'coach_mcloone', 'Other'))
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
