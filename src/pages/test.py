@@ -42,18 +42,18 @@ def preprocess_post_text1(doc):
         # Remove apostrophes before tokenization to preserve contractions like "should've"
         doc = re.sub(r"(\b\w+)'(\w+\b)", r'\1\2', doc)
 
-        # Split text into single words (also gets rid of extra white spaces)
-        words = word_tokenize(doc)
+        # # Split text into single words (also gets rid of extra white spaces)
+        # words = word_tokenize(doc)
 
-        # Remove text formatting
-        words = [unicodedata.normalize('NFKD', word) for word in words]
+        # # Remove text formatting
+        # words = [unicodedata.normalize('NFKD', word) for word in words]
         
-        # Convert to lower case
-        words = [word.lower() for word in words]
+        # # Convert to lower case
+        # words = [word.lower() for word in words]
 
-        # Remove stop words
-        stop_words = set(stopwords.words('english'))
-        words = [word for word in words if not word in stop_words]
+        # # Remove stop words
+        # stop_words = set(stopwords.words('english'))
+        # words = [word for word in words if not word in stop_words]
 
         # # Lemmatize words (must be done after conversion to lower case)
         # words = [wnl.lemmatize(word, pos='v') for word in words]
