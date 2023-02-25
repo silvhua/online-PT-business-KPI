@@ -19,8 +19,8 @@ from datetime import datetime
 st.write('hello, world')
 
 docs = [   
-    'the quick brown fox',
-    'this is the second sentence with fox'
+    "The quick brown fox should've jumped",
+    'This is the second sentence with fox'
 ]
 
 def preprocess_post_text1(doc):
