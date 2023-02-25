@@ -30,6 +30,7 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
     ax.axis('tight')
     # if streamlit:
     #     st.plotly_chart(fig, use_container_width=True)
+    fig.show()
     if filename:
         try:
             path = f'{path}/'.replace('\\','/')
