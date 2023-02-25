@@ -31,6 +31,7 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
     ax.axis('tight')
     if streamlit:
         fig.show()
+    fig.show()
 
     if filename:
         try:
