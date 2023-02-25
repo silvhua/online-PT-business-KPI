@@ -14,6 +14,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('wordnet')
 
 def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     """
