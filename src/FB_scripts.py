@@ -72,7 +72,6 @@ def get_user_ig_post_text(ig_user_id, access_token, pages=5, since=None, until=N
         pages=50, since='2022-01-01', until='2022-12-31', filename='my_ig_posts_2022')
 
     """
-    user_id = str(ig_user_id)
     url_root = "https://graph.facebook.com/v15.0/"
     url_without_token = f'{url_root}{ig_user_id}/media?fields=timestamp%2Ccaption%2Clike_count%2Ccomments_count%2Cmedia_type%2Cmedia_product_type%2Cmedia_url%2Cpermalink%2Cid%2Cthumbnail_url%2Ccomments%7Btimestamp%2Ctext%2Cusername%2Clike_count%2Creplies%7Btimestamp%2Ctext%2Cusername%2Clike_count%7D%7D'
     
