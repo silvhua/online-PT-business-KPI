@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
 
-def process_df_timestamp(input_df, timestamp_colum='timestamp'):
+def process_df_timestamp(input_df, timestamp_column='timestamp'):
     """
     Convert dates in the json-derived dataframe from Facebook API read requests
     into different formats.
@@ -23,14 +23,14 @@ def process_df_timestamp(input_df, timestamp_colum='timestamp'):
     """
     df = input_df.reset_index(drop=True)
     regex_date = r'.+T'
-    df[timestamp_colum] = pd.to_datetime(df['timestamp'])
-    df['date'] = df['timestamp'].dt.date
-    df['year'] = df['timestamp'].dt.year
-    df['month'] = df['timestamp'].dt.month
-    df['week_of_year'] = df['timestamp'].dt.isocalendar().week
-    df['day_of_week'] = df['timestamp'].dt.dayofweek
-    df['time'] = df['timestamp'].dt.time
-    df['hour'] = df['timestamp'].dt.hour
+    df[timestamp_column] = pd.to_datetime(df[timestamp_column])
+    df['date'] = df[timestamp_column].dt.date
+    df['year'] = df[timestamp_column].dt.year
+    df['month'] = df[timestamp_column].dt.month
+    df['week_of_year'] = df[timestamp_column].dt.isocalendar().week
+    df['day_of_week'] = df[timestamp_column].dt.dayofweek
+    df['time'] = df[timestamp_column].dt.time
+    df['hour'] = df[timestamp_column].dt.hour
     return df
 
 def preprocess_post_text(doc):
