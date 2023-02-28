@@ -31,6 +31,8 @@ def process_df_timestamp(input_df, timestamp_column='timestamp'):
     df['day_of_week'] = df[timestamp_column].dt.dayofweek
     df['time'] = df[timestamp_column].dt.time
     df['hour'] = df[timestamp_column].dt.hour
+    df['year-month'] = df[timestamp_column].dt.to_period('M').dt.start_time # first day of the month
+    df['year-week'] = df[timestamp_column].dt.to_period('W').dt.start_time # First day of the week (same day of week as for Jan 1 of that year)
     return df
 
 def preprocess_post_text(doc):
