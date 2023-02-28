@@ -1,5 +1,7 @@
 # Online Personal Training Social Media Analysis
 
+[**Click here to see the live dashboard associated with this project**](https://silvhua-online-pt-business-kpi-src1-instagram-insights-0kemun.streamlit.app/)
+
 ## Objective
 
 Social media platforms are a key tool for online fitness businesses to attract customers. 
