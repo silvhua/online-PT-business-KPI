@@ -29,6 +29,7 @@ def process_df_timestamp(input_df, timestamp_column='timestamp'):
     df['month'] = df[timestamp_column].dt.month
     df['week_of_year'] = df[timestamp_column].dt.isocalendar().week
     df['day_of_week'] = df[timestamp_column].dt.dayofweek
+    df['day_of_week_name'] = df[timestamp_column].dt.day_name()
     df['time'] = df[timestamp_column].dt.time
     df['hour'] = df[timestamp_column].dt.hour
     df['year-month'] = df[timestamp_column].dt.to_period('M').dt.start_time # first day of the month
