@@ -5,9 +5,10 @@ import pandas as pd
 import sys
 sys.path.append(r"C:\Users\silvh\OneDrive\lighthouse\custom_python")
 from silvhua import *
-from datetime import time, datetime
+from datetime import time, datetime, timedelta
 import pickle
 import streamlit as st
+import re
 
 def test_ig_credentials(ig_user_id, access_token):
     """ 
@@ -120,6 +121,108 @@ def get_user_ig_post_text(ig_user_id, access_token, pages=5, since=None, until=N
     try:
         df = pd.concat(df_list)
         print('Number of posts:',len(df))
+    except:
+        df = response
+    if filename:
+        try:
+            save_csv(df,filename,csv_path)
+            savepickle(response_json_dict,filename,'sav',json_path)
+        except:
+            print('Unable to save outputs')
+    return df, response_json_dict
+
+def get_ig_account_insights(ig_user_id, access_token, since=None, until=None,
+    filename=None,
+    json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\raw',
+    csv_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\interim'):
+    """ 
+    2023-03-02 16:13
+    Get the daily impressions and reach a given Instagram account.
+
+    Parameters:
+        - ig_user_id: Can be obtained from Facebook Graph API explorer using this query 
+            (requires business_management permission, possibly others also): 
+             me/accounts?fields=instagram_business_account{id,name,username,profile_picture_url}
+        - access_token
+        - since and until (str): Date in 'yyyy-mm-dd format', e.g. '2023-01-01'. 
+            Note: There cannot be more than 30 days (2592000 s) between since and until
+        - filename (str): Filename (without extension) for saving the outputs. If None, outputs are not saved.
+            For outputs to be saved, the custom functions save_csv and savepickle must be imported.
+        - json_path and csv_path (raw string): path to which to save the json and dataframe outputs,
+            respectively.
+    
+    Returns
+        - df: DataFrame with the following information:
+            - 
+        - response_json: JSON object with each page number of results as the key (starting with 1)
+    Example syntax:
+    """
+    url_root = "https://graph.facebook.com/v15.0/"
+    url_without_token = f'{url_root}{ig_user_id}/insights?metric=impressions%2Creach&metric_type=time_series&period=day'
+    
+    since_parameter = None
+    if since:
+        if type(since) == str:
+            since = datetime.strptime(since, "%Y-%m-%d")
+        else:
+            default_time = time(0,0)
+            since = datetime.combine(since, default_time)
+    if until:
+        if type(until) == str:
+            until = datetime.strptime(until, "%Y-%m-%d")
+        else:
+            default_time=time(0,0)
+            until = datetime.combine(until, default_time)
+        if (until != datetime.now()) & (since != datetime.now()) & ((until - since).days > 30):
+            since_parameter = until - timedelta(days=30)
+        url_without_token += f'&until={datetime.timestamp(until)}'
+    if since_parameter:
+        url_without_token += f'&since={datetime.timestamp(since_parameter)}'
+    else:
+        url_without_token += f'&since={datetime.timestamp(since)}'
+        since_parameter = since
+
+    url = url_without_token+'&access_token='+access_token
+    print(url_without_token)
+    
+    response_json_dict = dict()
+    df_list = []
+    earliest_end_time = None
+    page = 1
+    while (since_parameter >= since):
+        response = requests.get(url)
+        print(f'Requesting page {page}...')
+        print('\tResponse status code: ',response.status_code)
+        response_json_dict[page] = response.json()
+        if response.status_code//100 != 2: # Stop the function if there is an error in the request
+            print(response_json_dict[page]['error'])
+            break
+        try:
+            df_list.append(
+                pd.concat([
+                json_normalize(response_json_dict[page]['data'][0], record_path='values', record_prefix='impressions_'), # Impressions: "Total number of times the Business Account's media objects have been viewed"
+                json_normalize(response_json_dict[page]['data'][1], record_path='values', record_prefix='reach_') # Reach: "Total number of times the Business Account's media objects have been uniquely viewed"
+                ], axis=1)
+            )
+        except:
+            print('No data in request response for page', page)
+        earliest_end_time = response_json_dict[page]['data'][0]['values'][0]['end_time']
+        since_parameter = datetime.strptime(re.sub(r'(.+)T.+', r'\1', earliest_end_time), "%Y-%m-%d")
+
+        try:
+            next_endpoint = response_json_dict[page]['paging']['previous']
+            if next_endpoint+access_token != url:
+                url = next_endpoint
+            else:
+                print('end')
+                break
+        except: 
+            break
+        page +=1
+    try:
+        df = pd.concat(df_list)
+        df = df.reset_index(drop=True)
+        print('Number of days of data:',len(df))
     except:
         df = response
     if filename:
