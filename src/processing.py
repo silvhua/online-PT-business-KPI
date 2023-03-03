@@ -102,9 +102,10 @@ def preprocess_post_text(doc):
         return 'zzzEmpty'
     
 def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
-    filename=None,
+    timezone='Canada/Pacific', timestamp_column='timestamp', filename=None,
     path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\interim', **kwargs):
     """
+    2023-03-02 16:16
     Process Instagram post text contained in a dataframe:
     - Preprocess the data by parsing the dates and preprocessing the post captions.
     - Vectorize caption with CountVectorizer.
@@ -126,6 +127,11 @@ def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
         - vector_df: DataFrame of the vectors. Each row represents 1 post caption.
         - vect: CountVectorizer object.
     """
+    if timezone:
+        print('Time zone:', timezone)
+        input_df[timestamp_column] = pd.to_datetime(input_df[timestamp_column]).dt.tz_convert(timezone)
+    else:
+        print('Time stamps in UTC time')
     df = process_df_timestamp(input_df)
     df[text_column] = df[text_column].apply(lambda x: preprocess_post_text(x))
 
@@ -186,3 +192,34 @@ def tfidf_transform(count_vector):
         columns=vectorizer.get_feature_names_out()
         )
     return tfidf
+
+def process_account_insights(
+    input_df, metric_column_suffix='value', timestamp_column_suffix='end_time',
+    timezone='Canada/Pacific'
+    ):
+    """
+    SH 2023-03-02 16:14
+    """
+    timestamp_columns = input_df.filter(regex=timestamp_column_suffix).columns
+    # Check to see if all the timestamp columns are identical before proceeding
+    for index, column in enumerate(timestamp_columns[:-1]): 
+        if input_df[column].equals(input_df[timestamp_columns[index+1]]):
+            continue
+        else:
+            print('Error: timestamp columns are not all identical')
+            break
+    df = pd.concat([
+        input_df[column], 
+        input_df.filter(regex=metric_column_suffix)
+        ], axis=1)
+    if timezone:
+        print('Time zone:', timezone)
+        df[column] = pd.to_datetime(df[column]).dt.tz_convert(timezone)
+    else:
+        print('Time stamps in UTC time')
+    timezone_suffix = timezone if timezone else 'UTC'
+    timestamp_column_name = f'metric_{timestamp_column_suffix}_{timezone_suffix}'
+    df = df.rename(columns={column: timestamp_column_name})
+    df = process_df_timestamp(df, timestamp_column=timestamp_column_name) 
+    
+    return df.sort_values(timestamp_column_name).reset_index(drop=True)
