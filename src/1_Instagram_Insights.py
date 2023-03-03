@@ -94,7 +94,19 @@ if access_token != "":
                 bottom_posts['permalink'].rename('links to least liked posts')], axis=1)
             permalinks.index = list(range(1,len(top_posts)+1))
             st.write(permalinks)
+        
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
+        
+        agg = 'sum'
+
+        df, insights_response_json = get_ig_account_insights(ig_user_id, access_token, 
+            since=posts_start_date, until=posts_end_date)
+
+        insights_plot = plot_account_insights(
+            df, timezone=timezone, agg=agg, streamlit=True,
+            posts_df=data_processed)
+
     else:
         st.write('Click button for results')
+    
