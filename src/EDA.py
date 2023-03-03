@@ -4,8 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 from plotly.subplots import make_subplots
-# import plotly.graph_objects as go
-# from skimage import io
+import plotly.graph_objects as go
 import streamlit as st
 from processing import *
 
@@ -252,3 +251,77 @@ def plot_images_tfidf(input_df, count_vector,
     else:
         fig.show()
     return posts.reset_index(drop=True), fig
+
+def plot_account_insights(
+        input_df, agg='sum',
+        metric_column_suffix='value', timezone='Canada/Pacific',
+        posts_df=None,
+        streamlit=False):
+    
+    """
+    2023-03-02 16:07
+    """
+    df = process_account_insights(input_df, timezone=timezone)
+    metrics = df.columns[df.columns.str.contains('_'+metric_column_suffix)].tolist()
+    try:
+        metrics += ['posts'] if len(posts_df)>0 else ''
+    except:
+        pass
+    metrics = [metric.replace('_'+metric_column_suffix, '') for metric in metrics]
+    df.columns = df.columns.str.replace('_'+metric_column_suffix, '')
+    groupby_options = ['year-month', 'year-week', 'day_of_week', 'date']
+    subplot_titles = [
+        f'{metric} per {groupby} ({agg})' for groupby in groupby_options for metric in metrics]
+    fig = make_subplots(
+        rows=len(groupby_options)*len(metrics), cols=1, subplot_titles=subplot_titles
+        )
+    row = 1
+    xtick_list = []
+    df_list = []
+    for groupby in (groupby_options):
+        df_grouped = df.filter(items=metrics+[groupby]).groupby(
+            groupby).agg(agg) if groupby !='date' else df.set_index('date')
+        if groupby == 'day_of_week':
+            day_names = df.sort_values('day_of_week')['day_of_week_name'].unique()
+            df_grouped.index = [day[:3] for day in day_names]
+            df_grouped = df_grouped/len(df['year-week'].unique())
+        df_list.append(df_grouped)
+        for metric in (metrics):
+            if (metric == 'posts'):               
+                posts_grouped = posts_df.filter(items=['caption']+[groupby]).groupby(
+                    groupby).agg('count') 
+                if groupby == 'date':
+                    posts_grouped = posts_grouped.asfreq('D').fillna(0)
+                elif groupby == 'day_of_week':
+                    posts_grouped.index = df_grouped.index
+                    posts_grouped = posts_grouped/(len(df['year-week'].unique()) if agg=='mean' else 1)
+            fig.add_trace(
+                go.Scatter(
+                    y=df_grouped[metric] if metric !='posts' else posts_grouped['caption'],
+                    x=df_grouped.index if metric !='posts' else posts_grouped.index, 
+                    showlegend=False,
+                ),
+                row=row, col=1
+            )
+            row += 1
+            if len(df_grouped.index) <= 24:
+                xtick_list.append(df_grouped.index if metric != 'posts' else posts_grouped.index)
+            else:
+                xtick_list.append(None)
+
+    fig.update_layout(
+        title_text=f'Insights (periods end at {df.loc[0,"hour"]}:00 {timezone} time)',
+        title_xanchor='center', title_x=0.5,
+        height = len(groupby_options)*len(metrics) * 200,
+        template='plotly'
+        )
+    # Update the xtick labels for each subplot
+    for ax in fig['layout']:
+        if ax.startswith('xaxis'):
+            subplot = int(ax[5:]) if ax[5:] else 1
+            fig['layout'][ax]['tickvals'] = xtick_list[subplot-1]
+    if streamlit:
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        fig.show()
+    return fig
