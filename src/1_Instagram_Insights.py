@@ -98,14 +98,14 @@ if access_token != "":
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
         st.pyplot(BoW_fig)
         
-        agg = 'sum'
+        # agg = 'sum'
 
-        df, insights_response_json = get_ig_account_insights(ig_user_id, access_token, 
-            since=posts_start_date, until=posts_end_date)
+        # df, insights_response_json = get_ig_account_insights(ig_user_id, access_token, 
+        #     since=posts_start_date, until=posts_end_date)
 
-        insights_plot = plot_account_insights(
-            df, timezone=timezone, agg=agg, streamlit=True,
-            posts_df=data_processed)
+        # insights_plot = plot_account_insights(
+        #     df, timezone=timezone, agg=agg, streamlit=True,
+        #     posts_df=data_processed)
 
     else:
         st.write('Click button for results')
