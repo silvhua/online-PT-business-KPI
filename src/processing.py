@@ -11,6 +11,8 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
+import json
+from pandas import json_normalize  
 
 def process_df_timestamp(input_df, timestamp_column='timestamp'):
     """
