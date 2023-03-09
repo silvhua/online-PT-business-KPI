@@ -89,10 +89,15 @@ if access_token != "":
             top=False, max_columns=max_columns,
             timezone=timezone
             )
+        
+        binary_count_vectorizer, tfidf, top_posts_words, bottom_posts_words = tfidf_top_vs_bottom(data, top_posts, bottom_posts)
+        st.write(top_posts_words)
+        with st.expander('Click to see words unique to bottom-performing posts'):
+            st.write(bottom_posts_words)
+
         with st.expander('Click to see Permalinks for each post'):
-            permalinks = pd.concat([top_posts['permalink'].rename('links to most liked posts'),
-                bottom_posts['permalink'].rename('links to least liked posts')], axis=1)
-            permalinks.index = list(range(1,len(top_posts)+1))
+            permalinks = pd.concat([top_posts['permalink'].reset_index(drop=True).rename('links to most liked posts'),
+                bottom_posts['permalink'].reset_index(drop=True).rename('links to least liked posts')], axis=1)
             st.write(permalinks)
         
         top_words, BoW_fig = BoW_eda(count_vector, n=n_top_words, streamlit=True)
