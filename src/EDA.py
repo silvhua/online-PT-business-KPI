@@ -7,6 +7,8 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import streamlit as st
 from processing import *
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 
 def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper', title_suffix=None,
         streamlit=False, filename=None, path=r'C:\Users\silvh\OneDrive\data science job search\content'
@@ -116,7 +118,8 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False, timezone='Can
     return posts.reset_index(drop=True), fig
 
 def plot_images_tfidf(input_df, count_vector,
-        n=6, top=True, max_columns=5, streamlit=False, timezone='Canada/Pacific'):
+        n=5, top=True, max_columns=5, streamlit=False, 
+        caption_column='caption', timezone='Canada/Pacific'):
     """
     Plot the images/video thumbnails of either the top or 
     worst performing instagram media (posts, reels, carousels).
@@ -140,15 +143,21 @@ def plot_images_tfidf(input_df, count_vector,
     Returns:
         - DataFrame containing the data of the posts in the figure.
         - fig: Plotly figure object.
+
+    Updates:
+    SH 2023-03-07 16:27: Maintain original index for subsequent indexing of dataframe with the raw data.
     """
     tfidf = tfidf_transform(count_vector)
     ncols = n if n<max_columns else max_columns
     nrows = (n + ncols - 1) // ncols
     sort_by = ['like_count', 'comments_count', 'timestamp']
-    df = pd.concat([input_df, tfidf], axis=1)
+    # SH 2023-03-05 21:52
+    df = input_df.copy()
+    df.columns = df.columns.str.replace(caption_column, f'media_{caption_column}')
+    df = pd.concat([df, tfidf], axis=1)
+
     posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n).copy()
     posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
-    # posts['caption'] = posts['caption'].fillna('haha')
     if timezone:
         print('Time zone:', timezone)
         converted_timestamp = [timestamp.astimezone(timezone) for timestamp in pd.to_datetime(posts['timestamp'])]
@@ -250,7 +259,7 @@ def plot_images_tfidf(input_df, count_vector,
         st.plotly_chart(fig, use_container_width=True)
     else:
         fig.show()
-    return posts.reset_index(drop=True), fig
+    return posts, fig
 
 def plot_account_insights(
         input_df, agg='sum',
@@ -325,3 +334,45 @@ def plot_account_insights(
     else:
         fig.show()
     return fig
+
+def tfidf_top_vs_bottom(data, top_posts, bottom_posts, caption_column='media_caption'):
+    """
+    Obtain words unique to the top posts and words unique to the bottom posts.
+
+    Parameters:
+        - data: DataFrame containing raw data from `get_user_ig_post_text` function
+        - top_posts, bottom_posts: DataFrames each containing the top/bottom posts, 
+            as determined by `plot_images_tfidf` function
+        - caption_column (str): Name of the column containing the post captions. 
+
+    Returns:
+        - binary_count_vectorizer (DataFrame): Count vector for the posts (each post is 1 doc).
+        - tfidf (DataFrame): Tf-idf vectors, where top posts are pooled into one 
+            document and bottom posts are pooled into a 2nd doc.
+        - top_posts_words, bottom_posts_words (DataFrames): Words in the corpus that are unique
+            to either the top or bottom posts, sorted by highest document frequency. 
+    """
+    data = data.reset_index(drop=True)
+    top_posts_index = top_posts.index
+    bottom_posts_index = bottom_posts.index
+    select_posts = pd.concat([data.loc[top_posts_index], data.loc[bottom_posts_index]])
+    posts_processed, count_vector, vect = post_preprocessing(select_posts)
+    binary_count_vectorizer = (count_vector/count_vector).fillna(0).astype(int)
+    tfidf = tfidf_transform([ # Pool the top posts into one document and bottom posts into a 2nd doc
+        binary_count_vectorizer[:len(top_posts)].sum(), binary_count_vectorizer[len(top_posts):].sum()
+        ])
+    tfidf.columns = binary_count_vectorizer.columns
+    tfidf.index = ['top_posts', 'bottom_posts']
+    print(f'Shape of tf-idf vector array: {tfidf.shape}')
+
+    top_posts_words = tfidf.loc['top_posts'][(tfidf.loc['top_posts'] > 0) & (
+        tfidf.loc['bottom_posts'] == 0)].sort_values(ascending=False).index.tolist()
+    bottom_posts_words = tfidf.loc['bottom_posts'][(tfidf.loc['top_posts'] == 0) & (
+        tfidf.loc['bottom_posts'] > 0)].sort_values(ascending=False).index.tolist()
+    top_posts_words = pd.DataFrame(
+        [(word, binary_count_vectorizer[word].sum()) for word in top_posts_words],
+        columns=['word unique to top posts', 'top posts with that word'])
+    bottom_posts_words = pd.DataFrame(
+        [(word, binary_count_vectorizer[word].sum()) for word in bottom_posts_words],
+        columns=['word unique to bottom posts', 'bottom posts with that word'])
+    return binary_count_vectorizer, tfidf, top_posts_words, bottom_posts_words
