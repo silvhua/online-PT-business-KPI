@@ -117,7 +117,7 @@ def plot_images(df, n=6, top=True, max_columns=5, streamlit=False, timezone='Can
         fig.show()
     return posts.reset_index(drop=True), fig
 
-def plot_images_tfidf(input_df, count_vector,
+def plot_images_tfidf(input_df, count_vector, kpi='like_count',
         n=5, top=True, max_columns=5, streamlit=False, 
         caption_column='caption', timezone='Canada/Pacific'):
     """
@@ -132,6 +132,7 @@ def plot_images_tfidf(input_df, count_vector,
     Parameters:
         - df: DataFrame with the processed data.
         - count_vector: DataFrame with the count vectors.
+        - kpi (str): 'like_count' or 'comments_count'
         - n (int): Number of images to show.
         - top (bool): If True, plot images with the highest number of likes in 
             descending order. If False, plot images with the highest number of likes in
@@ -150,7 +151,9 @@ def plot_images_tfidf(input_df, count_vector,
     tfidf = tfidf_transform(count_vector)
     ncols = n if n<max_columns else max_columns
     nrows = (n + ncols - 1) // ncols
-    sort_by = ['like_count', 'comments_count', 'timestamp']
+    secondary_kpi = list(set(['like_count', 'comments_count']) - set(kpi))
+    sort_by = [kpi, secondary_kpi[0], 'timestamp']
+    # sort_by = ['like_count', 'comments_count', 'timestamp']
     # SH 2023-03-05 21:52
     df = input_df.copy()
     df.columns = df.columns.str.replace(caption_column, f'media_{caption_column}')
@@ -249,7 +252,7 @@ def plot_images_tfidf(input_df, count_vector,
     fig.update_xaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_yaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_layout(
-        title_text='Posts with highest number of likes' if top==True else 'Posts with fewest number of likes',
+        title_text=f'Posts with highest {kpi}' if top==True else f'Posts with lowest {kpi}',
         title_xanchor='center', title_x=0.5,
         plot_bgcolor="white", 
         height = 120 + nrows * 300,
