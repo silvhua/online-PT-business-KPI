@@ -62,6 +62,8 @@ else:
 
 posts_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52) - timedelta(days=1))
 posts_end_date = st.date_input('End date of query', datetime.now() - timedelta(days=1)) + timedelta(days=1)
+kpi = st.radio('Sort posts by number of', ('likes', 'comments'))
+kpi = 'like_count' if kpi=='likes' else 'comments_count'
 posts_to_display = st.number_input('Number of posts to display', value=3)
 max_columns = st.slider('Number of columns (more = smaller images)', min_value=1, max_value=5, value=3, step=1)
 max_columns = posts_to_display if max_columns > posts_to_display else max_columns
@@ -80,13 +82,13 @@ if access_token != "":
 
         top_posts, top_posts_figure = plot_images_tfidf(
             data_processed, count_vector, n=posts_to_display, streamlit=True, 
-            max_columns=max_columns,
+            max_columns=max_columns,kpi=kpi,
             timezone=timezone
             )
 
         bottom_posts, bottom_posts_figure = plot_images_tfidf(
             data_processed, count_vector,n=posts_to_display, streamlit=True, 
-            top=False, max_columns=max_columns,
+            top=False, max_columns=max_columns,kpi=kpi,
             timezone=timezone
             )
         
