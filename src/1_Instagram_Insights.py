@@ -26,7 +26,7 @@ This site will continue to get updated to allow for more insights.
 """
 st.write('Display the images/thumbnails of the most liked Instagram posts/Reels for a given time period')
 
-ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('silvialiftsweights', 'coach_mcloone', 'Other'))
+ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('silvialiftsweights', 'coach_mcloone', 'monikafronc_pilatesportal', 'Other'))
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
@@ -36,15 +36,23 @@ if ig_user_id_radio_input != 'Other':
         access_token_sh = credentials['access_token']
         ig_user_id_am = credentials['am_ig_user_id']
         access_token_am = credentials['am_ig_access_token']
+        ig_user_id_mf = credentials['mf_ig_user_id']
+        access_token_mf = credentials['mf_access_token']
     except: # if running from streamlit
         ig_user_id_sh = st.secrets['ig_user_id']
         access_token_sh = st.secrets['access_token']
         ig_user_id_am = st.secrets['am_ig_user_id']
         access_token_am = st.secrets['am_ig_access_token']
+        ig_user_id_mf = st.secrets['mf_ig_user_id']
+        access_token_mf = st.secrets['mf_access_token']
     if ig_user_id_radio_input == 'coach_mcloone':
         ig_user_id = ig_user_id_am
         access_token = access_token_am 
         timezone = 'Australia/Sydney'
+    elif ig_user_id_radio_input == 'monikafronc_pilatesportal':
+        ig_user_id = ig_user_id_mf
+        access_token = access_token_mf 
+        timezone = 'Canada/Pacific'
     else:
         ig_user_id = ig_user_id_sh
         access_token = access_token_sh
