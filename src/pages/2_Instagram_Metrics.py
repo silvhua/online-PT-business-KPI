@@ -59,8 +59,8 @@ if access_token != "":
 
     if st.button('Get results'):
         if streamlit:
-            json_path='data/API_response'
-            csv_path='data/interim'
+            json_path=r'data/API_response'
+            csv_path=r'data/interim'
         else:
             json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\API_response'
             csv_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\interim'
