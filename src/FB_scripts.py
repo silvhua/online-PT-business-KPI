@@ -160,6 +160,7 @@ def get_ig_account_insights(ig_user_id, access_token, since=None, until=None,
     url_root = "https://graph.facebook.com/v15.0/"
     url_without_token = f'{url_root}{ig_user_id}/insights?metric=impressions%2Creach&metric_type=time_series&period=day'
     
+    
     since_parameter = None
     if since:
         if type(since) == str:
@@ -224,13 +225,16 @@ def get_ig_account_insights(ig_user_id, access_token, since=None, until=None,
         df = pd.concat(df_list)
         df = df.reset_index(drop=True)
         print('Number of days of data:',len(df))
+        new_response_json_dict = dict()
+        for page, response in response_json_dict.items():
+            new_response_json_dict[page] = {'data': response['data']}
     except:
         df = df_list 
     if filename:
         filename += '_account_insights'
         try:
             savepickle(df,filename+'_df','sav',csv_path)
-            savepickle(response_json_dict,filename,'sav',json_path)
+            savepickle(new_response_json_dict,filename,'sav',json_path)
         except:
             print('Unable to save outputs')
     return df, response_json_dict
@@ -238,7 +242,7 @@ def get_ig_account_insights(ig_user_id, access_token, since=None, until=None,
 @st.cache_data
 def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
     timestamp_column_suffix='end_time', filename=None,
-    json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\raw',
+    json_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\API_response',
     csv_path=r'C:\Users\silvh\OneDrive\lighthouse\portfolio-projects\online-PT-social-media-NLP\data\interim'):
     """ 
     2023-03-15 1:22
@@ -302,7 +306,9 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
         url_without_token += f'&until={datetime.timestamp(until)}'
     
     if (previous_since == None) & (previous_until == None):
-        df, response_json_dict = get_ig_account_insights(ig_user_id, access_token, since=since, until=until, filename=filename)
+        df, response_json_dict = get_ig_account_insights(
+            ig_user_id, access_token, since=since, until=until, filename=filename,
+            json_path=json_path)
         return df.sort_values(df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]).reset_index(drop=True), response_json_dict
     elif previous_since == None:
         previous_since = since + timedelta (days=1)
@@ -312,8 +318,8 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
         print('Previous `until` parameter could not be found; default to until - 1.')
     if (previous_since.date() > since.date()):
         print(f'\nFetching older account insights from {datetime.strftime(since, "%Y-%m-%d")} to {datetime.strftime(previous_since, "%Y-%m-%d")}')
-        older_insights_df, older_insights_response_json_dict = get_ig_account_insights(ig_user_id, access_token, 
-            since=since, until=previous_since)
+        older_insights_df, older_insights_response_json_dict = get_ig_account_insights(ig_user_id, access_token,
+            json_path=json_path, since=since, until=previous_since)
         try:
             df = pd.concat([df.copy(), older_insights_df])
         except:
@@ -330,7 +336,7 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
     if (previous_until.date() < until.date()):
         print(f'\nFetching newer account insights from {datetime.strftime(previous_until, "%Y-%m-%d")} to {datetime.strftime(until, "%Y-%m-%d")}')
         new_insights_df, new_insights_response_json_dict = get_ig_account_insights(ig_user_id, access_token, 
-            since=previous_until, until=until)
+            json_path=json_path, since=previous_until, until=until)
         try:
             df = pd.concat([df.copy(), new_insights_df])
         except:
@@ -339,14 +345,19 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
             zip([key+len(response_json_dict) for key in new_insights_response_json_dict.keys()], new_insights_response_json_dict.values())
             )
         response_json_dict = {**response_json_dict, **new_insights_response_json_dict}
+        # remove items containing API key as this will invalidate access tokens if published to Github
+        new_response_json_dict = dict()
+        for page, response in response_json_dict.items():
+            new_response_json_dict[page] = {'data': response['data']}
     
     if (previous_until.date() >= until.date()) & (previous_since.date() <= since.date()):
         print('\nLoading previous saved results; no new API calls required.\n')
+        new_response_json_dict = response_json_dict
         
     if filename:
         try:
             savepickle(df, filename2+'_df', 'sav', csv_path)
-            savepickle(response_json_dict,filename2,'sav',json_path)
+            savepickle(new_response_json_dict,filename2,'sav',json_path)
         except:
             print('Unable to save outputs')
     return df.sort_values(df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]).reset_index(drop=True), response_json_dict
