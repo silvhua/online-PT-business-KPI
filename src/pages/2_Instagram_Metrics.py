@@ -7,7 +7,7 @@ from datetime import timedelta
 
 st.set_page_config(page_title='Instagram Insights Metrics')
 
-ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('silvialiftsweights', 'coach_mcloone', 'Other'))
+ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('silvialiftsweights', 'coach_mcloone', 'monikafronc_pilatesportal', 'Other'))
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
