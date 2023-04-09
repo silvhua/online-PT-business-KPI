@@ -299,13 +299,15 @@ def plot_account_insights(
             df_grouped = df_grouped/len(df['year-week'].unique())
         df_list.append(df_grouped)
         for metric in (metrics):
-            if (metric == 'posts'):               
+            if (metric == 'posts'):
+                print('unique days of the week:', posts_df['day_of_week_name'].unique())               
                 posts_grouped = posts_df.filter(items=['caption']+[groupby]).groupby(
                     groupby).agg('count') 
                 if groupby == 'date':
                     posts_grouped = posts_grouped.asfreq('D').fillna(0)
                 elif groupby == 'day_of_week':
-                    posts_grouped.index = df_grouped.index
+                    day_map = {1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday', 7: 'Sunday'}
+                    posts_grouped = posts_grouped.rename(index=day_map)
                     posts_grouped = posts_grouped/(len(df['year-week'].unique()) if agg=='mean' else 1)
             fig.add_trace(
                 go.Scatter(
