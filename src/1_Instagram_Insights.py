@@ -63,10 +63,11 @@ if ig_user_id_radio_input != 'Other':
         timezone = 'Canada/Pacific'
         access_token_key = 'access_token'
         
-    prolong_access_token(
-        credentials_json='..\\notebooks\credentials_long_lived.json', 
-        access_token_key=access_token_key, 
-        new_credentials_filename='..\\notebooks\credentials_long_lived.json')
+    if streamlit == True:
+        prolong_access_token(
+            credentials_json='..\\notebooks\credentials_long_lived.json', 
+            access_token_key=access_token_key, 
+            new_credentials_filename='..\\notebooks\credentials_long_lived.json')
 else:
     
     """Note: This will only work for business Instagram accounts of 
