@@ -361,3 +361,78 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
         except:
             print('Unable to save outputs')
     return df.sort_values(df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]).reset_index(drop=True), response_json_dict
+
+def prolong_access_token(credentials_json='credentials.json', access_token_key='access_token', 
+    new_credentials_filename='credentials_long_lived.json'):
+    
+    """ SH 2023-01-17 23:04
+    - Convert an access token to a Long-Lived User Access Token, which should last 60 days instead
+    of 2 hours. 
+    - Print the date and time of updated access_token expiry.
+    - Create a new credentials JSON file with the Long-Lived User Access Token.
+
+    Parameters:
+        - credentials.json : JSON file containing the following fields:
+            - 'access_token' or other key: User access token.
+            - 'app_id'
+            - 'app_secret'
+        - access_token_key (str): Key to the relevant access_token in the 
+            JSON file if different from 'access_token'
+        - new_credentials_filename (str): Filename for saving the credentials file 
+            with the long-lived user access token.
+        - last_request_date_key (str): Key to the last_request_date in the JSON file if different from 'last_request_date'.
+    Returns:
+        - token_response: JSON object containing API GET response.
+
+    Relevant API documentation:
+    https://developers.facebook.com/docs/facebook-login/guides/access-tokens/get-long-lived
+    """
+    # Retrieve credentials
+    with open(credentials_json) as f:
+        credentials = json.load(f)
+    access_token = credentials[access_token_key]
+    app_id = credentials['app_id']
+    app_secret = credentials['app_secret']
+
+    if access_token_key == 'access_token':
+        last_request_date_key = 'last_request_date'
+    elif access_token_key == 'am_ig_access_token':
+        last_request_date_key = 'am_ig_last_request_date'
+    elif access_token_key == 'mf_access_token':
+        last_request_date_key = 'mf_last_request_date'
+
+    # Check if a new request is necessary
+    try:
+        print('Checking last access token extension date')
+        last_request_date = credentials.get(last_request_date_key)
+        if last_request_date and last_request_date == datetime.now().strftime("%Y-%m-%d"):
+            print('Access token already up-to-date.')
+            return
+    except:
+        print('\tNo last request date found')
+
+    # Make API request: Query the GET oauth/access_token endpoint
+    url_root = "https://graph.facebook.com/v16.0/oauth/access_token"
+    request_url = f'{url_root}?grant_type=fb_exchange_token&client_id={app_id}&client_secret={app_secret}&fb_exchange_token={access_token}'
+    response = requests.get(request_url)
+    print('Response status code: ',response.status_code)
+    try:
+        response_json = response.json()
+        response_json['request_url'] = request_url
+        try:
+            new_access_token = response_json['access_token']
+            credentials[access_token_key] = new_access_token
+            time_to_expiry = timedelta(seconds=response_json['expires_in'])
+            now = datetime.now()
+            credentials[f'{access_token_key}_expiry'] = (now + time_to_expiry).strftime("%Y-%m-%d %H:%M")
+            credentials[last_request_date_key] = now.strftime("%Y-%m-%d")
+            print('Updated token expiry:', credentials['token_expiry'])
+            with open(new_credentials_filename,'w') as json_file:
+                json.dump(credentials, json_file)
+                print('New credentials file created:', new_credentials_filename)
+        except:
+            print('Unable to save new credentials; check request response')
+        return response_json
+    except:
+        print('Unable to get response JSON; check request response')
+        return response
