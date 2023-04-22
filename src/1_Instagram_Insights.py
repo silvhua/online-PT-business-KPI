@@ -63,7 +63,7 @@ if ig_user_id_radio_input != 'Other':
         timezone = 'Canada/Pacific'
         access_token_key = 'access_token'
         
-    if streamlit == True:
+    if streamlit == False:
         prolong_access_token(
             credentials_json='..\\notebooks\credentials_long_lived.json', 
             access_token_key=access_token_key, 
