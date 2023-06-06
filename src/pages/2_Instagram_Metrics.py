@@ -4,6 +4,7 @@ from FB_scripts import *
 from processing import *
 from EDA import *
 from datetime import timedelta
+import pickle
 
 st.set_page_config(page_title='Instagram Insights Metrics')
 
