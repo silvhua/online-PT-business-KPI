@@ -80,9 +80,6 @@ def loadpickle(filename,filepath):
     Returns saved object.
     """
     filename = f'{filepath}/'.replace('\\','/')+filename
-    try:
-        loaded_model = pickle.load(open(filename, 'rb'))
-    except:
-        loaded_model = pd.read_pickle(open(filename, 'rb'))
+    loaded_model = pickle.load(open(filename, 'rb'))
     print('Time completed:', datetime.now())
     return loaded_model
