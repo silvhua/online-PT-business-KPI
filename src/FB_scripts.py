@@ -272,28 +272,28 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
     previous_since, previous_until = None, None
     if filename:
         filename2 = f'{filename}_account_insights'
-    try:
-        df = loadpickle(filename2+'_df.sav', csv_path)
-        df = df.reset_index(drop=True)
-        timestamp_column = df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]
-        df = df.sort_values(timestamp_column)
-        response_json_dict = loadpickle(filename2+'.sav', json_path)
-        previous_since = datetime.strptime(df.iloc[0][timestamp_column], "%Y-%m-%dT%H:%M:%S%z") # the %z format code is to indicate timezone as an offset
-        previous_until = datetime.strptime(df.iloc[-1][timestamp_column], "%Y-%m-%dT%H:%M:%S%z")
-        print('previous since date:', previous_since)
-        print('previous until date:', previous_until)
-    except:
-        print('Unable to load prior results; making new API calls for entire date range.')
+    # try:
+    #     df = loadpickle(filename2+'_df.sav', csv_path)
+    #     df = df.reset_index(drop=True)
+    #     timestamp_column = df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]
+    #     df = df.sort_values(timestamp_column)
+    #     response_json_dict = loadpickle(filename2+'.sav', json_path)
+    #     previous_since = datetime.strptime(df.iloc[0][timestamp_column], "%Y-%m-%dT%H:%M:%S%z") # the %z format code is to indicate timezone as an offset
+    #     previous_until = datetime.strptime(df.iloc[-1][timestamp_column], "%Y-%m-%dT%H:%M:%S%z")
+    #     print('previous since date:', previous_since)
+    #     print('previous until date:', previous_until)
+    # except:
+    #     print('Unable to load prior results; making new API calls for entire date range.')
     
-    # df = loadpickle(filename2+'_df.sav', csv_path)
-    # df = df.reset_index(drop=True)
-    # timestamp_column = df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]
-    # df = df.sort_values(timestamp_column)
-    # response_json_dict = loadpickle(filename2+'.sav', json_path)
-    # previous_since = datetime.strptime(df.iloc[0][timestamp_column], "%Y-%m-%dT%H:%M:%S%z") # the %z format code is to indicate timezone as an offset
-    # previous_until = datetime.strptime(df.iloc[-1][timestamp_column], "%Y-%m-%dT%H:%M:%S%z")
-    # print('previous since date:', previous_since)
-    # print('previous until date:', previous_until)
+    df = pickle.load(f'{csv_path}/{filename2}_df.sav', 'rb')
+    df = df.reset_index(drop=True)
+    timestamp_column = df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]
+    df = df.sort_values(timestamp_column)
+    response_json_dict = pickle.load(f'{json_path}/{filename2}.sav', 'rb')
+    previous_since = datetime.strptime(df.iloc[0][timestamp_column], "%Y-%m-%dT%H:%M:%S%z") # the %z format code is to indicate timezone as an offset
+    previous_until = datetime.strptime(df.iloc[-1][timestamp_column], "%Y-%m-%dT%H:%M:%S%z")
+    print('previous since date:', previous_since)
+    print('previous until date:', previous_until)
     
     url_root = "https://graph.facebook.com/v15.0/"
     url_without_token = f'{url_root}{ig_user_id}/insights?metric=impressions%2Creach&metric_type=time_series&period=day'
