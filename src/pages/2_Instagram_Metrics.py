@@ -11,7 +11,7 @@ ig_user_id_radio_input = st.radio('Select the Instagram account to query', ('sil
 
 if ig_user_id_radio_input != 'Other':
     try: # if running from local machine
-        with open("..\\notebooks\credentials_long_lived.json") as f:
+        with open("..\\notebooks\credentials.json") as f:
             credentials = json.load(f)
         ig_user_id_sh = credentials['ig_user_id']
         access_token_sh = credentials['access_token']
@@ -54,11 +54,11 @@ else:
     access_token = ig_access_token_text_input
     timezone = None
 
-if streamlit == False:
-    prolong_access_token(
-        credentials_json='..\\notebooks\credentials_long_lived.json', 
-        access_token_key=access_token_key, 
-        new_credentials_filename='..\\notebooks\credentials_long_lived.json')
+# if streamlit == False:
+#     prolong_access_token(
+#         credentials_json='..\\notebooks\credentials_long_lived.json', 
+#         access_token_key=access_token_key, 
+#         new_credentials_filename='..\\notebooks\credentials_long_lived.json')
 query_start_date = st.date_input('Start date of query', datetime.now() - timedelta(weeks=52) - timedelta(days=1))
 query_end_date = st.date_input('End date of query', datetime.now() - timedelta(days=1)) + timedelta(days=1)
 
