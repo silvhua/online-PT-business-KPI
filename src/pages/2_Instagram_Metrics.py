@@ -63,6 +63,7 @@ query_start_date = st.date_input('Start date of query', datetime.now() - timedel
 query_end_date = st.date_input('End date of query', datetime.now() - timedelta(days=1)) + timedelta(days=1)
 
 if access_token != "":
+    pickle.load(open(f'data/interim/archive/silvialiftsweights_account_insights_df.sav', 'rb'))
     agg = st.radio('Select the type of statistic to display', ('mean', 'sum'))
 
     if st.button('Get results'):
