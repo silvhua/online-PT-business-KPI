@@ -285,11 +285,11 @@ def update_ig_account_insights(ig_user_id, access_token, since=None, until=None,
     # except:
     #     print('Unable to load prior results; making new API calls for entire date range.')
     
-    df = pickle.load(f'{csv_path}/{filename2}_df.sav', 'rb')
+    df = pickle.load(open(f'{csv_path}/{filename2}_df.sav', 'rb'))
     df = df.reset_index(drop=True)
     timestamp_column = df.columns[df.columns.str.contains('_'+timestamp_column_suffix)][0]
     df = df.sort_values(timestamp_column)
-    response_json_dict = pickle.load(f'{json_path}/{filename2}.sav', 'rb')
+    response_json_dict = pickle.load(open(f'{json_path}/{filename2}.sav', 'rb'))
     previous_since = datetime.strptime(df.iloc[0][timestamp_column], "%Y-%m-%dT%H:%M:%S%z") # the %z format code is to indicate timezone as an offset
     previous_until = datetime.strptime(df.iloc[-1][timestamp_column], "%Y-%m-%dT%H:%M:%S%z")
     print('previous since date:', previous_since)
