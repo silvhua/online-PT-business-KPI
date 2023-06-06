@@ -14,6 +14,26 @@ from sklearn.feature_extraction.text import TfidfTransformer
 import json
 from pandas import json_normalize  
 
+def loadpickle(filename,filepath):
+    """
+    Load a pickled model using specified file path copied from windows file explorer.
+    Back slashes in file path will be converted to forward slashes.
+    Arguments:
+    - filepath (raw string): Use the format r'<path>'.
+    - filename (string).
+    
+    Returns saved object.
+    """
+    filename = f'{filepath}/'.replace('\\','/')+filename
+    object = pickle.load(open(filename, 'rb'))
+    print('Time completed:', datetime.now())
+    if type(object) == pd.core.frame.DataFrame:
+        print('Dataframe shape: ',object.shape)
+        print('DataFrame columns:', [col for col in object.columns])
+    if type(object) == dict:
+        print('Dictionary keys:', [key for key in object.keys()])
+    return object
+
 def process_df_timestamp(input_df, timestamp_column='timestamp'):
     """
     Convert dates in the json-derived dataframe from Facebook API read requests
