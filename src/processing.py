@@ -13,6 +13,7 @@ from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
 import json
 from pandas import json_normalize  
+import pickle
 
 def loadpickle(filename,filepath):
     """
