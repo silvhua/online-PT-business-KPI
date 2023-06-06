@@ -1,6 +1,6 @@
 import requests
 import json
-# from pandas import json_normalize  
+from pandas import json_normalize  
 import pandas as pd
 import sys
 sys.path.append(r"C:\Users\silvh\OneDrive\lighthouse\custom_python")
