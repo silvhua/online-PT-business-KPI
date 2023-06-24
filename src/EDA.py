@@ -180,69 +180,25 @@ def plot_images_tfidf(input_df, count_vector, kpi='like_count',
         ):
         highest_tfidf = [word for word, value in tfidf.loc[i].sort_values(
             ascending=False).head(5).items() if value > 0]
-        fig.add_layout_image(
-            x=0, y=0,
-            xanchor='center', yanchor='middle',
-            sizex=1, sizey=1,
-            row=index // ncols + 1,
-            col=index % ncols + 1,
-            xref="x",
-            yref="y",
-            opacity=1.0,
-            source=url
-        )
-        annotation_y_position = -0.075
-        fig.add_annotation(
-            xref="x domain",
-            yref="y domain",
-            x=0.5,
-            y=1.1,
-            text=title,
-            axref="x domain",
-            ayref="y",
-            ax=0.5,
-            ay=2,
-            arrowhead=2,
-            row=index // ncols + 1,
-            col=index % ncols + 1,
-        )
-        fig.add_annotation(
-            xref="x domain",
-            yref="y domain",
-            x=0.5,
-            y=annotation_y_position,
-            text=f'{n_likes} likes, {n_comments} comments',
-            axref="x domain",
-            ayref="y",
-            ax=0.5,
-            ay=2,
-            arrowhead=2,
-            row=index // ncols + 1,
-            col=index % ncols + 1,
-        )
-        annotation_y_position -= 0.1
-        fig.add_annotation(
-            xref="x domain",
-            yref="y domain",
-            x=0.5,
-            y=annotation_y_position,
-            text=f'Most unique words:',
-            axref="x domain",
-            ayref="y",
-            ax=0.5,
-            ay=2,
-            arrowhead=2,
-            row=index // ncols + 1,
-            col=index % ncols + 1,
-        )
-        for word in highest_tfidf:
-            annotation_y_position -= .075
+        try:
+            fig.add_layout_image(
+                x=0, y=0,
+                xanchor='center', yanchor='middle',
+                sizex=1, sizey=1,
+                row=index // ncols + 1,
+                col=index % ncols + 1,
+                xref="x",
+                yref="y",
+                opacity=1.0,
+                source=url
+            )
+            annotation_y_position = -0.075
             fig.add_annotation(
                 xref="x domain",
                 yref="y domain",
                 x=0.5,
-                y=annotation_y_position,
-                text=word,
+                y=1.1,
+                text=title,
                 axref="x domain",
                 ayref="y",
                 ax=0.5,
@@ -250,8 +206,60 @@ def plot_images_tfidf(input_df, count_vector, kpi='like_count',
                 arrowhead=2,
                 row=index // ncols + 1,
                 col=index % ncols + 1,
-                # hovertext=caption,
             )
+            fig.add_annotation(
+                xref="x domain",
+                yref="y domain",
+                x=0.5,
+                y=annotation_y_position,
+                text=f'{n_likes} likes, {n_comments} comments',
+                axref="x domain",
+                ayref="y",
+                ax=0.5,
+                ay=2,
+                arrowhead=2,
+                row=index // ncols + 1,
+                col=index % ncols + 1,
+            )
+            annotation_y_position -= 0.1
+            fig.add_annotation(
+                xref="x domain",
+                yref="y domain",
+                x=0.5,
+                y=annotation_y_position,
+                text=f'Most unique words:',
+                axref="x domain",
+                ayref="y",
+                ax=0.5,
+                ay=2,
+                arrowhead=2,
+                row=index // ncols + 1,
+                col=index % ncols + 1,
+            )
+            for word in highest_tfidf:
+                annotation_y_position -= .075
+                fig.add_annotation(
+                    xref="x domain",
+                    yref="y domain",
+                    x=0.5,
+                    y=annotation_y_position,
+                    text=word,
+                    axref="x domain",
+                    ayref="y",
+                    ax=0.5,
+                    ay=2,
+                    arrowhead=2,
+                    row=index // ncols + 1,
+                    col=index % ncols + 1,
+                    # hovertext=caption,
+                )
+        except Exception as error: 
+            exc_type, exc_obj, tb = sys.exc_info()
+            file = tb.tb_frame
+            lineno = tb.tb_lineno
+            filename = file.f_code.co_filename
+            print(f'\tAn error occurred on line {lineno} in {filename}: {error}')
+            print(f'Error creating figure of thumbnails.')
     fig.update_xaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_yaxes(range=[-0.5,0.5], showticklabels=False)
     fig.update_layout(
