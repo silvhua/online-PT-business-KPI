@@ -13,6 +13,7 @@ from datetime import datetime
 from sklearn.feature_extraction.text import TfidfTransformer
 import json
 from pandas import json_normalize  
+import sys
 
 def process_df_timestamp(input_df, timestamp_column='timestamp'):
     """
@@ -100,7 +101,13 @@ def preprocess_post_text(doc):
         words = ''.join([char for char in words if char not in non_hashtag_punctuation])
 
         return words
-    except: # In case value is nan
+    except Exception as error: 
+        exc_type, exc_obj, tb = sys.exc_info()
+        file = tb.tb_frame
+        lineno = tb.tb_lineno
+        filename = file.f_code.co_filename
+        print(f'\tAn error occurred on line {lineno} in {filename}: {error}')    
+        print('\t\tUnable to tokenize text')
         return 'zzzEmpty'
     
 def post_preprocessing(input_df, text_column='caption', n_top_to_print=10,
