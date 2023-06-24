@@ -163,7 +163,8 @@ def plot_images_tfidf(input_df, count_vector, kpi='like_count',
     df = pd.concat([df, tfidf], axis=1)
 
     posts = df.sort_values(by=sort_by, ascending=False if top else True).head(n).copy()
-    posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
+    # posts['thumbnail_url'].fillna(posts['media_url'], inplace=True)
+    posts['thumbnail_url'] = posts['thumbnail_url'].fillna(posts['media_url'])
     if timezone:
         print('Time zone:', timezone)
         converted_timestamp = [timestamp.astimezone(timezone) for timestamp in pd.to_datetime(posts['timestamp'])]
@@ -178,7 +179,7 @@ def plot_images_tfidf(input_df, count_vector, kpi='like_count',
             posts['like_count'], posts['comments_count'], posts['thumbnail_url'],
             titles)
         ):
-        print(f'Thumbnail url: {url}')
+        print(f'\tThumbnail url: {url}')
         highest_tfidf = [word for word, value in tfidf.loc[i].sort_values(
             ascending=False).head(5).items() if value > 0]
         try:
