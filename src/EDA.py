@@ -178,6 +178,7 @@ def plot_images_tfidf(input_df, count_vector, kpi='like_count',
             posts['like_count'], posts['comments_count'], posts['thumbnail_url'],
             titles)
         ):
+        print(f'Thumbnail url: {url}')
         highest_tfidf = [word for word, value in tfidf.loc[i].sort_values(
             ascending=False).head(5).items() if value > 0]
         try:
