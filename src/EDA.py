@@ -19,7 +19,10 @@ def BoW_eda(df, n=30, text_column='caption', drop=['<number>'], context='paper',
     plt.rcParams['savefig.dpi'] = 300
     
     # sns.set_theme(context=context, style='ticks')
-    df = df.drop(columns=drop)
+    try:
+        df = df.drop(columns=drop)
+    except:
+        pass
     top_n = df.sum().sort_values(ascending=False).head(n).sort_values()
     # ax = sns.barplot(df[top_n.index.tolist()], estimator='sum',errorbar=None) # this works but gives deprecated warning
     fig, ax = plt.subplots()
